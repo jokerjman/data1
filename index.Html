@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">สถิติศาสตร์และข้อมูล - ค33202 คณิตศาสตร์เพิ่มเติม 6 ม.6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=Mitr:wght@400;500;600&family=Charm:wght@700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--pri:#4f46e5;--pri2:#7c3aed;--ok:#16a34a;--bad:#dc2626;--warn:#f59e0b;--bg:#f4f6fb;--tx:#1e293b;--mut:#64748b;--bd:#e2e8f0;--r:16px}
+body{margin:0;font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--tx);font-size:17px;line-height:1.75}
+h1,h2,h3,h4,.brand,.btn,.qnum{font-family:'Mitr','Sarabun',sans-serif;font-weight:500;line-height:1.4}
+h2{margin:.2em 0}h3{margin:0 0 .6em;color:#312e81}
+code{background:#eef2ff;color:var(--pri);padding:2px 8px;border-radius:6px;font-weight:700}
+.ov{text-decoration:overline}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;padding:10px 20px;font-size:16px;cursor:pointer;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;transition:.2s;margin:4px}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(79,70,229,.3)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--pri);border:1.5px solid var(--pri)}
+.btn.ok{background:linear-gradient(135deg,#16a34a,#15803d)}
+.btn.bad{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.btn.gold{background:linear-gradient(135deg,#f59e0b,#b45309)}
+.btn.sm{padding:5px 12px;font-size:14px;border-radius:9px}
+.wrap{max-width:1020px;margin:0 auto;padding:24px 16px 70px}
+.card{background:#fff;border-radius:var(--r);box-shadow:0 4px 20px rgba(15,23,42,.06);padding:24px;margin-bottom:18px}
+.center{text-align:center}.mut{color:var(--mut)}
+input,select{font-family:inherit;font-size:16px;padding:11px 14px;border:1.5px solid var(--bd);border-radius:10px;width:100%;outline:none;transition:.2s}
+input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(79,70,229,.15)}
+label{font-weight:600;font-size:15px;display:block;margin:12px 0 4px}
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:16px;padding:10px 20px;flex-wrap:wrap}
+.brand{cursor:pointer;font-size:18px;color:var(--pri)}
+.tb-prog{flex:1;display:flex;align-items:center;gap:8px;min-width:140px}
+.pbar{flex:1;height:10px;background:#e0e7ff;border-radius:99px;overflow:hidden}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#4f46e5);border-radius:99px;transition:width .6s}
+.tb-user{font-weight:600;font-size:15px}
+/* login */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#0ea5e9 100%)}
+.login-card{width:100%;max-width:440px;text-align:center}
+.login-card .logo{font-size:60px;line-height:1}
+.login-card .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
+.login-card form>label{text-align:left}
+.linkbtn{background:none;border:0;color:var(--mut);cursor:pointer;font-family:inherit;font-size:14px;margin-top:10px;text-decoration:underline}
+/* home */
+.hero{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:20px;padding:28px;margin-bottom:22px}
+.hero p{margin:.3em 0;opacity:.95}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.scard{background:#fff;border-radius:var(--r);padding:20px;box-shadow:0 4px 18px rgba(15,23,42,.06);border-top:5px solid var(--c);display:flex;flex-direction:column;gap:6px;transition:.2s}
+.scard:hover{transform:translateY(-3px)}
+.scard .ic{font-size:36px}.scard p{font-size:14.5px;color:var(--mut);margin:0;flex:1}
+.chip{display:inline-block;font-size:13px;padding:2px 10px;border-radius:99px;font-weight:600}
+.chip.lock{background:#f1f5f9;color:#64748b}.chip.go{background:#e0e7ff;color:#4338ca}.chip.pass{background:#dcfce7;color:#15803d}
+.scard.locked{opacity:.6}
+/* lesson */
+.lesson-hero{background:var(--c);color:#fff;border-radius:20px;padding:24px;display:flex;gap:18px;align-items:center;margin-bottom:18px}
+.lesson-hero .lh-ic{font-size:54px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{border:1.5px solid var(--bd);background:#fff;border-radius:99px;padding:5px 14px;font-family:inherit;cursor:pointer;font-size:14px}
+.tabs button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.tabs button:disabled{opacity:.4;cursor:not-allowed}
+.def{background:#eef2ff;border-left:5px solid var(--pri);padding:14px 18px;border-radius:10px;margin:10px 0}
+.ex{background:#f0fdf4;border-left:5px solid #22c55e;padding:12px 18px;border-radius:10px;margin:10px 0}
+.tip{background:#fffbeb;border-left:5px solid #f59e0b;padding:12px 18px;border-radius:10px;margin:10px 0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.step{background:#f8fafc;border:1.5px solid var(--bd);border-radius:14px;padding:14px;position:relative}
+.step .n{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Mitr;margin-bottom:6px}
+.step p{font-size:14.5px;margin:4px 0 0;color:#475569}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.box{border:1.5px solid var(--bd);border-radius:14px;padding:16px;background:#fff}
+.box h4{margin:0 0 6px}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.term{border-radius:14px;padding:16px;background:#f8fafc;border:1.5px solid var(--bd)}
+.term h4{margin:0 0 4px;color:#1d4ed8}
+.term small{color:#475569}
+table.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:15.5px}
+.tb th,.tb td{border:1px solid var(--bd);padding:9px 12px;text-align:left;vertical-align:top}
+.tb th{background:#eef2ff;font-family:Mitr;font-weight:500}
+.tb td.sym{font-size:20px;text-align:center;font-weight:700;color:#4338ca}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:center;margin:12px 0}
+.flow span{background:#eef2ff;padding:8px 14px;border-radius:12px;font-weight:600}
+.flow b{color:var(--pri);font-size:20px}
+.tree ul{list-style:none;padding-left:20px;margin:4px 0;border-left:2px dashed #c7d2fe}
+.tree>ul{border:0;padding:0}
+.tree li{margin:6px 0;position:relative}
+.tree .nd{display:inline-block;padding:4px 12px;border-radius:10px;background:#eef2ff;font-weight:600}
+.tree .nd.l2{background:#dcfce7}.tree .nd.l3{background:#fef3c7}
+.summary-box{background:linear-gradient(135deg,#ecfeff,#eef2ff);border:2px solid #c7d2fe;border-radius:18px;padding:20px}
+.summary-box ul{margin:6px 0;padding-left:22px}
+/* activities */
+.act{border:2px dashed #a5b4fc;border-radius:18px;padding:18px;background:#fafaff;margin:16px 0}
+.act-h{font-family:Mitr;color:#4338ca;font-size:18px;margin-bottom:4px}
+.act-d{color:var(--mut);font-size:15px;margin-bottom:10px}
+.fb{min-height:28px;font-weight:600;margin-top:8px}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pbtn{border:1.5px solid #c7d2fe;background:#fff;border-radius:12px;padding:8px 14px;font-family:inherit;font-size:15px;cursor:pointer;transition:.15s}
+.pbtn:hover:not(:disabled){background:#eef2ff}
+.pbtn.ok{background:#dcfce7;border-color:#22c55e;color:#166534}
+.pbtn.bad{background:#fee2e2;border-color:#ef4444}
+.pbtn.sel{background:#4f46e5;color:#fff;border-color:#4f46e5}
+.pbtn:disabled{cursor:default}
+.ordans{display:flex;flex-direction:column;gap:6px;min-height:20px}
+.ordans div{background:#dcfce7;border-radius:10px;padding:6px 12px;animation:pop .3s}
+.ordans span{display:inline-block;width:26px;height:26px;border-radius:50%;background:#16a34a;color:#fff;text-align:center;line-height:26px;margin-right:8px;font-weight:700}
+.match{display:grid;grid-template-columns:1fr 1.6fr;gap:12px}
+.match .col{display:flex;flex-direction:column;gap:8px}
+.match .pbtn{text-align:left}
+.cls-row{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:10px 14px;margin:8px 0}
+.cls-row.ok{border-color:#22c55e;background:#f0fdf4}.cls-row.bad{border-color:#ef4444;background:#fef2f2}
+.cls-t{font-weight:600;margin-bottom:6px}
+.cls-btns{display:flex;flex-wrap:wrap;gap:6px}
+.cls-btns .pbtn{padding:4px 12px;font-size:14px}
+.cls-e{font-size:14.5px;color:#475569;margin-top:4px}
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.flip{perspective:900px;height:190px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.flipped .flip-in{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.flip-f{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.flip-f .ic{font-size:40px}.flip-f small{opacity:.8}
+.flip-b{background:#fff;border:2px solid #a5b4fc;transform:rotateY(180deg);font-size:14.5px}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .35s}
+/* quiz */
+.quiz-head{display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(135deg,#1e1b4b,#4338ca);color:#fff}
+.quiz-head code{background:rgba(255,255,255,.2);color:#fff}
+.qcount{font-family:Mitr;font-size:26px;background:rgba(255,255,255,.15);padding:8px 16px;border-radius:14px;white-space:nowrap}
+.qnum{color:var(--pri);font-size:15px}
+.qtext{font-size:18px;font-weight:600;margin:4px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1.5px solid var(--bd);background:#fff;border-radius:12px;padding:10px 14px;font-family:inherit;font-size:16px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:#a5b4fc;background:#f8faff}
+.opt .ol{flex:0 0 28px;height:28px;border-radius:50%;background:#eef2ff;color:#4338ca;display:flex;align-items:center;justify-content:center;font-weight:700}
+.opt.sel{border-color:var(--pri);background:#eef2ff}
+.opt.sel .ol{background:var(--pri);color:#fff}
+.opt.right{border-color:#22c55e;background:#dcfce7}
+.opt.wrong{border-color:#ef4444;background:#fee2e2}
+.exp{margin-top:10px;background:#f8fafc;border-radius:10px;padding:10px 14px;font-size:15px}
+.res-top{text-align:center}
+.ring{width:150px;height:150px;border-radius:50%;margin:10px auto;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:Mitr;color:#fff}
+.ring b{font-size:42px;line-height:1}
+.ring.pass{background:radial-gradient(circle,#22c55e,#15803d)}
+.ring.fail{background:radial-gradient(circle,#f87171,#b91c1c)}
+/* summary card */
+.sumcard{max-width:900px;margin:0 auto;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 10px 40px rgba(79,70,229,.18)}
+.sum-h{background:linear-gradient(135deg,#4f46e5,#7c3aed,#0ea5e9);color:#fff;padding:26px;text-align:center}
+.sum-b{padding:24px}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sum-item{border-radius:16px;padding:16px;border:2px solid var(--c);background:#fff}
+.sum-item h4{margin:0 0 6px;color:var(--c)}
+.sum-item ul{margin:0;padding-left:20px;font-size:15px}
+.scorebar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.scorebar div{background:#f1f5f9;border-radius:12px;padding:8px 14px;text-align:center;font-size:14px}
+.scorebar b{display:block;font-family:Mitr;font-size:20px;color:var(--pri)}
+/* certificate */
+.cert-scroll{overflow-x:auto;padding-bottom:10px}
+.cert{width:1000px;height:707px;margin:0 auto;background:#fffdf6;position:relative;padding:22px;box-shadow:0 10px 40px rgba(0,0,0,.15);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.cert-in{height:100%;border:3px solid #b8860b;outline:1.5px solid #b8860b;outline-offset:-12px;padding:34px 60px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;background:radial-gradient(circle at center,#fffef9 0%,#fdf6e3 100%)}
+.cert .corner{position:absolute;width:70px;height:70px;border:4px solid #d4a017}
+.cert .c1{top:10px;left:10px;border-right:0;border-bottom:0}.cert .c2{top:10px;right:10px;border-left:0;border-bottom:0}
+.cert .c3{bottom:10px;left:10px;border-right:0;border-top:0}.cert .c4{bottom:10px;right:10px;border-left:0;border-top:0}
+.cert-title{font-family:Mitr;font-size:56px;color:#a16207;letter-spacing:4px;margin:0;line-height:1.2}
+.cert-sub{font-size:20px;color:#334155}
+.cert-name{font-family:Mitr;font-size:40px;color:#1e3a8a;border-bottom:2px solid #d4a017;padding:0 40px 4px;margin:4px 0}
+.cert-body{font-size:19px;color:#334155;line-height:1.8}
+.cert-sign{display:flex;justify-content:space-between;align-items:flex-end;width:100%}
+.seal{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,#fbbf24,#b45309);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Mitr;font-size:14px;box-shadow:0 0 0 5px #fde68a;line-height:1.3}
+.seal b{font-size:26px}
+.sig{text-align:center;min-width:280px}
+.sig .sg{font-family:'Charm',cursive;font-size:38px;color:#1e3a8a;line-height:1;height:46px}
+.sig .ln{border-top:1.5px dotted #475569;margin-top:4px;padding-top:4px;font-size:17px}
+.certno{font-size:13px;color:#64748b;text-align:left;min-width:200px}
+/* admin */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:#fff;border-radius:14px;padding:16px;box-shadow:0 4px 18px rgba(15,23,42,.05)}
+.stat b{display:block;font-family:Mitr;font-size:30px;color:var(--pri)}
+.tbl-wrap{overflow-x:auto}
+table.adm{width:100%;border-collapse:collapse;font-size:14.5px;min-width:900px}
+.adm th{background:#1e1b4b;color:#fff;font-family:Mitr;font-weight:400;padding:9px;position:sticky;top:0}
+.adm td{border-bottom:1px solid var(--bd);padding:8px;text-align:center}
+.adm td.l{text-align:left}
+.adm tr:hover td{background:#f8faff}
+.okc{color:#15803d;font-weight:700}.noc{color:#94a3b8}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input{max-width:280px}
+.bank-q{border-bottom:1px solid var(--bd);padding:8px 0;font-size:15px}
+.bank-q .a{color:#15803d;font-weight:600}
+/* modal / toast */
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:pop .2s}
+.modal{max-width:560px;width:100%;max-height:88vh;overflow:auto}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 22px;border-radius:12px;z-index:200;animation:pop .25s;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.conf{position:fixed;top:-20px;width:10px;height:14px;z-index:300;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+@media(max-width:700px){.two,.sum-grid,.match{grid-template-columns:1fr}.lesson-hero{flex-direction:column;text-align:center}.quiz-head{flex-direction:column;text-align:center}body{font-size:16px}}
+@media print{
+  @page{size:A4 landscape;margin:6mm}
+  body{background:#fff}
+  .topbar,.no-print{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .cert{box-shadow:none;margin:0 auto}
+  .cert-scroll{overflow:visible}
+  .sumcard{box-shadow:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ================== ตั้งค่าพื้นฐานและข้อมูลหลัก ================== */
+const DBKEY='stat6u2_db_v1';
+const ADMIN_USER='admin', ADMIN_PASS='1234';
+
+function loadDB(){
+  try{
+    const d=JSON.parse(localStorage.getItem(DBKEY));
+    if(d&&d.students){
+      d.settings=Object.assign({
+        passPct:60, 
+        finalPassPct:70,
+        subjectName:'คณิตศาสตร์เพิ่มเติม 6',
+        subjectCode:'ค33202',
+        gradeLevel:'ชั้นมัธยมศึกษาปีที่ 6',
+        unitName:'หน่วยการเรียนรู้ที่ 1 สถิติศาสตร์และข้อมูล',
+        teacherName:'จิรพันธ์ บัวแก้ว',
+        teacherPos:'ครูผู้สอน'
+      }, d.settings||{});
+      return d;
+    }
+  }catch(e){}
+  return {
+    students:{},
+    settings:{
+      passPct:60,
+      finalPassPct:70,
+      subjectName:'คณิตศาสตร์เพิ่มเติม 6',
+      subjectCode:'ค33202',
+      gradeLevel:'ชั้นมัธยมศึกษาปีที่ 6',
+      unitName:'หน่วยการเรียนรู้ที่ 1 สถิติศาสตร์และข้อมูล',
+      teacherName:'จิรพันธ์ บัวแก้ว',
+      teacherPos:'ครูผู้สอน'
+    }
+  };
+}
+
+let DB=loadDB();
+function saveDB(){localStorage.setItem(DBKEY,JSON.stringify(DB));}
+let ME=sessionStorage.getItem('stat6_me2');
+let QUIZ=null;
+const app=document.getElementById('app');
+function me(){return DB.students[ME];}
+function view(html){app.innerHTML=html;window.scrollTo(0,0);document.getElementById('pageTitle').textContent=`${DB.settings.unitName} - ${DB.settings.subjectCode} ${DB.settings.subjectName} ${DB.settings.gradeLevel}`;}
+
+/* ================== โครงสร้างบทเรียน ================== */
+const SECTIONS=[
+ {key:'s1',no:1,title:'บทนำและสถิติศาสตร์',icon:'📊',color:'#6366f1',desc:'ความหมาย องค์ประกอบ 5 ขั้นตอน และประโยชน์ของสถิติศาสตร์'},
+ {key:'s2',no:2,title:'คำสำคัญในสถิติศาสตร์',icon:'🔑',color:'#0ea5e9',desc:'ประชากร ตัวอย่าง ตัวแปร ข้อมูล พารามิเตอร์ และค่าสถิติ'},
+ {key:'s3',no:3,title:'ประเภทของข้อมูล',icon:'🗂️',color:'#10b981',desc:'จำแนกตามแหล่งที่มา ตามระยะเวลา และตามลักษณะของข้อมูล'},
+ {key:'s4',no:4,title:'สถิติศาสตร์เชิงพรรณนาและเชิงอนุมาน',icon:'🔍',color:'#f59e0b',desc:'ความแตกต่างของสถิติ 2 ประเภท และการนำไปใช้'}
+];
+const SUMMARY={
+ s1:['สถิติศาสตร์ คือ ศาสตร์ว่าด้วยการเก็บรวบรวมข้อมูล วิเคราะห์ข้อมูล และสรุปผล เพื่ออธิบายปรากฏการณ์หรือตอบประเด็นที่สนใจ','5 ขั้นตอน: เก็บรวบรวม → นำเสนอ → วิเคราะห์ → ตีความหมาย → สรุปผล','ประโยชน์ 5 ด้าน: การศึกษา, เกษตรกรรม, การผลิตและควบคุมคุณภาพ, ผู้บริโภค, การพยากรณ์'],
+ s2:['ประชากร = หน่วยทั้งหมดที่สนใจ (มีทั้งจำกัดและไม่จำกัด) / ตัวอย่าง = กลุ่มย่อยที่เป็นตัวแทน','ตัวแปร = ลักษณะที่วัดค่าได้ / ข้อมูล = ข้อเท็จจริงจากการรวบรวมค่าของตัวแปร','พารามิเตอร์ (ประชากร): μ, σ, σ², p','ค่าสถิติ (ตัวอย่าง): {xbar}, s, s², p̂'],
+ s3:['ตามแหล่งที่มา: ปฐมภูมิ (เก็บเอง) / ทุติยภูมิ (มีผู้รวบรวมไว้แล้ว)','ตามระยะเวลา: ตัดขวาง (ณ เวลาหนึ่ง) / อนุกรมเวลา (ต่อเนื่องตามลำดับเวลา)','ตามลักษณะ: เชิงปริมาณ (ไม่ต่อเนื่อง–นับ, ต่อเนื่อง–วัด) / เชิงคุณภาพ (บวก ลบ คูณ หาร ไม่ได้)'],
+ s4:['เชิงพรรณนา: สรุปสาระสำคัญหรืออธิบายลักษณะของข้อมูลชุดที่มี เช่น ตารางความถี่ แผนภูมิ ค่ากลาง ค่าวัดการกระจาย ร้อยละ','เชิงอนุมาน: ใช้ทฤษฎีความน่าจะเป็นกับข้อมูลจากตัวอย่าง เพื่อสรุปหรือประมาณค่าพารามิเตอร์ของประชากร']
+};
+
+/* ================== คลังข้อสอบ ================== */
+const BANK={
+s1:[
+ {q:'สถิติศาสตร์ หมายถึงข้อใด',c:['ศาสตร์ที่ว่าด้วยการเก็บรวบรวมข้อมูล วิเคราะห์ข้อมูล และสรุปผลจากข้อมูล เพื่ออธิบายปรากฏการณ์หรือตอบประเด็นที่สนใจ','ตัวเลขที่แสดงจำนวนประชากรของประเทศเท่านั้น','การคำนวณค่าเฉลี่ยของข้อมูลเพียงอย่างเดียว','การนำเสนอข้อมูลด้วยแผนภูมิและกราฟเท่านั้น'],e:'สถิติศาสตร์ครอบคลุมทั้งการเก็บรวบรวม วิเคราะห์ และสรุปผลจากข้อมูล'},
+ {q:'ขั้นตอนแรกขององค์ประกอบสถิติศาสตร์คือข้อใด',c:['การเก็บรวบรวมข้อมูล','การวิเคราะห์ข้อมูล','การตีความหมายข้อมูล','การสรุปผล'],e:'ต้องเริ่มจากการเก็บรวบรวมข้อมูลก่อนเสมอ'},
+ {q:'ขั้นตอนสุดท้ายขององค์ประกอบสถิติศาสตร์คือข้อใด',c:['การสรุปผล','การนำเสนอข้อมูล','การเก็บรวบรวมข้อมูล','การวิเคราะห์ข้อมูล'],e:'ลำดับคือ เก็บรวบรวม → นำเสนอ → วิเคราะห์ → ตีความหมาย → สรุปผล'},
+ {q:'ข้อใดเรียงลำดับองค์ประกอบของสถิติศาสตร์ได้ถูกต้อง',c:['เก็บรวบรวม → นำเสนอ → วิเคราะห์ → ตีความหมาย → สรุปผล','เก็บรวบรวม → วิเคราะห์ → นำเสนอ → สรุปผล → ตีความหมาย','นำเสนอ → เก็บรวบรวม → วิเคราะห์ → ตีความหมาย → สรุปผล','วิเคราะห์ → เก็บรวบรวม → นำเสนอ → ตีความหมาย → สรุปผล'],e:'องค์ประกอบ 5 ขั้นตอนเรียงตามลำดับนี้'},
+ {q:'ขั้นตอนที่อยู่ถัดจาก “การวิเคราะห์ข้อมูล” คือข้อใด',c:['การตีความหมายข้อมูล','การนำเสนอข้อมูล','การเก็บรวบรวมข้อมูล','การสรุปผล'],e:'หลังวิเคราะห์แล้วต้องตีความหมายผลการวิเคราะห์ก่อนสรุปผล'},
+ {q:'องค์ประกอบของสถิติศาสตร์มีทั้งหมดกี่ขั้นตอน',c:['5 ขั้นตอน','3 ขั้นตอน','4 ขั้นตอน','6 ขั้นตอน'],e:'มี 5 ขั้นตอน ได้แก่ เก็บรวบรวม นำเสนอ วิเคราะห์ ตีความหมาย และสรุปผล'},
+ {q:'การวางแผนการเพาะปลูก พยากรณ์ผลผลิต และปรับปรุงพันธุ์พืชและสัตว์ เป็นประโยชน์ของสถิติศาสตร์ด้านใด',c:['ด้านการเกษตรกรรม','ด้านการศึกษา','ด้านผู้บริโภค','ด้านการผลิตและการควบคุมคุณภาพ'],e:'งานเหล่านี้เป็นประโยชน์ด้านการเกษตรกรรม'},
+ {q:'การวางแผนการจัดการศึกษา การประเมินผลการสอน และการวิจัยทางการศึกษา เป็นประโยชน์ด้านใด',c:['ด้านการศึกษา','ด้านการพยากรณ์','ด้านการเกษตรกรรม','ด้านผู้บริโภค'],e:'งานเหล่านี้เป็นประโยชน์ด้านการศึกษา'},
+ {q:'โรงงานใช้สถิติตรวจสอบสินค้าให้ได้มาตรฐาน และวางแผนผลิตให้สอดคล้องกับความต้องการ เป็นประโยชน์ด้านใด',c:['ด้านการผลิตและการควบคุมคุณภาพ','ด้านผู้บริโภค','ด้านการศึกษา','ด้านการเกษตรกรรม'],e:'การวางแผนการผลิตและควบคุมคุณภาพเป็นประโยชน์ด้านการผลิต'},
+ {q:'การใช้ข้อมูลเปรียบเทียบราคาและคุณภาพเพื่อเลือกซื้อสินค้า เป็นประโยชน์ด้านใด',c:['ด้านผู้บริโภค','ด้านการผลิตและการควบคุมคุณภาพ','ด้านการพยากรณ์','ด้านการเกษตรกรรม'],e:'สถิติช่วยผู้บริโภคตัดสินใจเลือกซื้อสินค้าและบริการ'},
+ {q:'การวิเคราะห์ข้อมูลในอดีตเพื่อคาดการณ์สภาพอากาศหรือเศรษฐกิจในอนาคต เป็นประโยชน์ด้านใด',c:['ด้านการพยากรณ์','ด้านการศึกษา','ด้านผู้บริโภค','ด้านการเกษตรกรรม'],e:'การใช้ข้อมูลในอดีตคาดการณ์อนาคตคือการพยากรณ์'},
+ {q:'เหตุใดในปัจจุบันจึงต้องใช้ความรู้ทางสถิติศาสตร์ในการวิเคราะห์ข้อมูล',c:['เพราะข้อมูลมีมากมายและหลากหลาย การวิเคราะห์อย่างมีประสิทธิภาพจึงต้องอาศัยสถิติศาสตร์','เพราะข้อมูลในปัจจุบันมีน้อยลงมาก','เพราะสถิติศาสตร์ใช้ได้เฉพาะในวิชาคณิตศาสตร์','เพราะการตัดสินใจไม่จำเป็นต้องใช้ข้อมูล'],e:'ข้อมูลที่มีจำนวนมากและหลากหลายต้องอาศัยสถิติในการวิเคราะห์'},
+ {q:'ร้านกาแฟสำรวจความพึงพอใจและพฤติกรรมของลูกค้า แล้วนำผลไปปรับปรุงเมนู เป็นการใช้สถิติเพื่ออะไร',c:['ช่วยตัดสินใจและวางแผนปรับปรุงสินค้าและบริการ','ทำให้ไม่ต้องเก็บข้อมูลอีก','ใช้พยากรณ์สภาพอากาศ','ใช้ปรับปรุงพันธุ์พืช'],e:'เป็นตัวอย่างการประยุกต์ใช้สถิติในการตัดสินใจและวางแผน'},
+ {q:'ข้อใดไม่ใช่องค์ประกอบของสถิติศาสตร์',c:['การโฆษณาขายสินค้า','การนำเสนอข้อมูล','การตีความหมายข้อมูล','การเก็บรวบรวมข้อมูล'],e:'การโฆษณาไม่ได้เป็นหนึ่งใน 5 ขั้นตอนของสถิติศาสตร์'}
+],
+s2:[
+ {q:'“ประชากร” ในทางสถิติ หมายถึงข้อใด',c:['กลุ่มของหน่วยทั้งหมดที่สนใจศึกษา','กลุ่มย่อยที่ถูกเลือกมาเป็นตัวแทน','ลักษณะที่สนใจศึกษาและวัดค่าได้','ค่าที่คำนวณได้จากกลุ่มตัวอย่าง'],e:'ประชากร = หน่วยทั้งหมดที่สนใจ ไม่จำเป็นต้องเป็นคน'},
+ {q:'“ตัวอย่าง” หมายถึงข้อใด',c:['กลุ่มย่อยของประชากรที่ถูกเลือกมาเพื่อเป็นตัวแทน','กลุ่มของหน่วยทั้งหมดที่สนใจศึกษา','ค่าคงตัวที่แสดงลักษณะของประชากร','ข้อเท็จจริงที่ได้จากการวัด'],e:'ตัวอย่างคือส่วนหนึ่งของประชากรที่ใช้เป็นตัวแทน'},
+ {q:'“ตัวแปร” หมายถึงข้อใด',c:['ลักษณะของประชากรหรือตัวอย่างที่สนใจศึกษาและวัดค่าได้','ค่าที่คงที่ไม่เปลี่ยนแปลง','กลุ่มของหน่วยทั้งหมดที่สนใจ','วิธีการสุ่มตัวอย่าง'],e:'ตัวแปรคือลักษณะที่สนใจและสามารถวัดค่าได้ เช่น ส่วนสูง เพศ'},
+ {q:'“พารามิเตอร์” หมายถึงข้อใด',c:['ค่าคงตัวที่แสดงลักษณะของประชากรทั้งหมด','ค่าที่คำนวณได้จากกลุ่มตัวอย่าง','กลุ่มย่อยของประชากร','ลักษณะที่วัดค่าไม่ได้'],e:'พารามิเตอร์เป็นค่าของประชากร'},
+ {q:'“ค่าสถิติ” หมายถึงข้อใด',c:['ค่าที่คำนวณได้จากกลุ่มตัวอย่าง','ค่าคงตัวของประชากรทั้งหมด','จำนวนหน่วยของประชากร','ข้อมูลที่ผู้อื่นรวบรวมไว้'],e:'ค่าสถิติคำนวณจากตัวอย่าง'},
+ {q:'สัญลักษณ์ใดเป็นพารามิเตอร์',c:['μ','{xbar}','s','s²'],e:'μ (มิว) คือค่าเฉลี่ยของประชากร ส่วน {xbar}, s, s² เป็นค่าสถิติ'},
+ {q:'สัญลักษณ์ใดเป็นค่าสถิติ',c:['{xbar}','μ','σ','σ²'],e:'{xbar} (เอกซ์บาร์) คือค่าเฉลี่ยของตัวอย่าง'},
+ {q:'ข้อใดเป็นประชากรที่มีจำนวนไม่จำกัด',c:['จำนวนปลาในแม่น้ำเจ้าพระยา','นักเรียน ม.6 ทั้งหมดในโรงเรียน','รถยนต์ที่บริษัทผลิตได้ในเดือนมกราคม','ครูทั้งหมดในโรงเรียน'],e:'ปลาในแม่น้ำนับจำนวนให้ครบถ้วนไม่ได้'},
+ {q:'ข้อใดเป็นประชากรที่มีจำนวนจำกัด',c:['นักเรียน ม.6 ทั้งหมดในโรงเรียน','แบคทีเรียในร่างกายผู้ป่วย','จำนวนปลาในแม่น้ำเจ้าพระยา','จำนวนครั้งที่โยนเหรียญจนกว่าจะออกหัวติดกัน 3 ครั้ง'],e:'นักเรียน ม.6 ในโรงเรียนนับได้ครบถ้วน'},
+ {q:'โรงเรียนมีนักเรียน ม.6 จำนวน 1,200 คน สุ่มมา 100 คน วัดส่วนสูงเฉลี่ยได้ 165.4 ซม. ค่า 165.4 ซม. คือข้อใด',c:['ค่าสถิติ','พารามิเตอร์','ประชากร','ตัวแปร'],e:'คำนวณจากนักเรียน 100 คนซึ่งเป็นตัวอย่าง จึงเป็นค่าสถิติ'},
+ {q:'จากการสุ่มนักเรียน 100 คนจาก 1,200 คนเพื่อวัดส่วนสูง “ส่วนสูง” คือข้อใด',c:['ตัวแปร','ประชากร','ตัวอย่าง','พารามิเตอร์'],e:'ส่วนสูงเป็นลักษณะที่สนใจศึกษาและวัดค่าได้'},
+ {q:'ส่วนเบี่ยงเบนมาตรฐานของคะแนนสอบที่คำนวณจากนักเรียนกลุ่มหนึ่งที่สุ่มมา เป็นข้อใด',c:['ค่าสถิติ','พารามิเตอร์','ประชากร','ตัวแปร'],e:'คำนวณจากตัวอย่างจึงเป็นค่าสถิติ ใช้สัญลักษณ์ s'},
+ {q:'“ข้อมูล” หมายถึงข้อใด',c:['ข้อเท็จจริงที่ได้จากการรวบรวมค่าของตัวแปร','ค่าคงตัวของประชากร','กลุ่มของหน่วยทั้งหมดที่สนใจ','สัญลักษณ์ทางสถิติ'],e:'ข้อมูลเกิดจากการรวบรวมค่าของตัวแปร'},
+ {q:'σ² หมายถึงข้อใด',c:['ความแปรปรวนของประชากร','ความแปรปรวนของตัวอย่าง','ค่าเฉลี่ยของประชากร','ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง'],e:'σ² เป็นพารามิเตอร์ คือความแปรปรวนของประชากร (ของตัวอย่างใช้ s²)'}
+],
+s3:[
+ {q:'ข้อมูลปฐมภูมิ หมายถึงข้อใด',c:['ข้อมูลที่ผู้ศึกษาเก็บรวบรวมเองโดยตรงจากแหล่งต้นกำเนิด','ข้อมูลที่มีผู้รวบรวมไว้แล้ว','ข้อมูลที่เก็บต่อเนื่องตามลำดับเวลา','ข้อมูลที่ไม่ใช่ตัวเลข'],e:'ปฐมภูมิ = เก็บเองโดยตรงจากต้นกำเนิด'},
+ {q:'ข้อมูลจากรายงานของหน่วยงานราชการ จัดเป็นข้อมูลประเภทใด',c:['ข้อมูลทุติยภูมิ','ข้อมูลปฐมภูมิ','ข้อมูลอนุกรมเวลาเสมอ','ข้อมูลเชิงคุณภาพเสมอ'],e:'เป็นข้อมูลที่ผู้อื่นรวบรวมไว้แล้ว'},
+ {q:'นักเรียนออกแบบแบบสอบถามและสัมภาษณ์เพื่อนในห้องด้วยตนเอง ข้อมูลที่ได้เป็นประเภทใด',c:['ข้อมูลปฐมภูมิ','ข้อมูลทุติยภูมิ','ข้อมูลอนุกรมเวลา','ข้อมูลต่อเนื่อง'],e:'เก็บเองโดยตรงจึงเป็นปฐมภูมิ'},
+ {q:'ข้อมูลตัดขวาง หมายถึงข้อใด',c:['ข้อมูลที่เก็บ ณ จุดเวลาใดเวลาหนึ่ง','ข้อมูลที่เก็บต่อเนื่องตามลำดับเวลา','ข้อมูลที่ผู้อื่นรวบรวมไว้','ข้อมูลที่ได้จากการวัดเท่านั้น'],e:'ตัดขวาง = ณ เวลาใดเวลาหนึ่ง'},
+ {q:'ยอดขายรายเดือนของร้านค้าตั้งแต่มกราคมถึงธันวาคม เป็นข้อมูลประเภทใด',c:['ข้อมูลอนุกรมเวลา','ข้อมูลตัดขวาง','ข้อมูลเชิงคุณภาพ','ข้อมูลปฐมภูมิเสมอ'],e:'เป็นข้อมูลที่เรียงต่อเนื่องตามลำดับเวลา'},
+ {q:'คะแนนสอบกลางภาคของนักเรียนทุกคนในห้องจากการสอบครั้งนี้ เป็นข้อมูลประเภทใดตามระยะเวลา',c:['ข้อมูลตัดขวาง','ข้อมูลอนุกรมเวลา','ข้อมูลทุติยภูมิ','ข้อมูลเชิงคุณภาพ'],e:'เก็บ ณ เวลาเดียว (การสอบครั้งนี้) จึงเป็นข้อมูลตัดขวาง'},
+ {q:'ข้อใดเป็นข้อมูลเชิงคุณภาพ',c:['สีที่ชอบ','น้ำหนัก','จำนวนพี่น้อง','ส่วนสูง'],e:'สีที่ชอบอธิบายลักษณะ ไม่ใช่ตัวเลขที่นำมาคำนวณได้'},
+ {q:'ข้อใดเป็นข้อมูลเชิงปริมาณแบบไม่ต่อเนื่อง',c:['จำนวนรถยนต์ที่ผ่านสี่แยก','น้ำหนักของนักกีฬา','อุณหภูมิ','ส่วนสูง'],e:'ได้จากการนับ เป็นจำนวนเต็ม'},
+ {q:'ข้อใดเป็นข้อมูลเชิงปริมาณแบบต่อเนื่อง',c:['อุณหภูมิร่างกาย','จำนวนนักเรียน','จำนวนไข่ไก่ที่เก็บได้ใน 1 วัน','จำนวนรถยนต์ที่ผ่านสี่แยก'],e:'อุณหภูมิได้จากการวัด มีทศนิยมได้'},
+ {q:'ลักษณะสำคัญของข้อมูลเชิงคุณภาพคือข้อใด',c:['ไม่สามารถนำมาบวก ลบ คูณ หาร ได้','เป็นจำนวนเต็มเสมอ','ได้จากการวัดเสมอ','ต้องเก็บต่อเนื่องตามเวลา'],e:'ข้อมูลเชิงคุณภาพอธิบายลักษณะ ประเภท หรือสมบัติ'},
+ {q:'ข้อมูลแบบต่อเนื่องมีลักษณะอย่างไร',c:['มีค่าได้ทุกค่าในช่วงที่กำหนด ได้จากการวัด มีทศนิยมได้','เป็นจำนวนนับเท่านั้น','ไม่สามารถเป็นตัวเลขได้','ได้จากรายงานของผู้อื่นเท่านั้น'],e:'ข้อมูลต่อเนื่องมาจากการวัด'},
+ {q:'เพศ และประเภทสินค้า จัดเป็นข้อมูลประเภทใด',c:['ข้อมูลเชิงคุณภาพ','ข้อมูลเชิงปริมาณแบบต่อเนื่อง','ข้อมูลเชิงปริมาณแบบไม่ต่อเนื่อง','ข้อมูลอนุกรมเวลา'],e:'ไม่ใช่ตัวเลข จึงเป็นข้อมูลเชิงคุณภาพ'},
+ {q:'ในบทเรียนนี้จำแนกประเภทของข้อมูลตามเกณฑ์ใดบ้าง',c:['ตามแหล่งที่มา ตามระยะเวลา และตามลักษณะของข้อมูล','ตามสี ตามขนาด และตามราคา','ตามจำนวนผู้เก็บข้อมูลเท่านั้น','ตามประชากรและตัวอย่างเท่านั้น'],e:'มี 3 เกณฑ์: แหล่งที่มา, ระยะเวลา, ลักษณะ'},
+ {q:'ข้อมูลปริมาณน้ำฝนที่นักเรียนดาวน์โหลดจากเว็บไซต์กรมอุตุนิยมวิทยา เป็นข้อมูลประเภทใด',c:['ข้อมูลทุติยภูมิ','ข้อมูลปฐมภูมิ','ข้อมูลเชิงคุณภาพ','ข้อมูลไม่ต่อเนื่อง'],e:'หน่วยงานอื่นรวบรวมไว้แล้ว จึงเป็นทุติยภูมิ'}
+],
+s4:[
+ {q:'สถิติศาสตร์เชิงพรรณนา หมายถึงข้อใด',c:['การวิเคราะห์เพื่อสรุปสาระสำคัญหรืออธิบายลักษณะของข้อมูลชุดหนึ่ง','การใช้ข้อมูลจากตัวอย่างสรุปถึงประชากร','การพยากรณ์อนาคตด้วยความน่าจะเป็น','การสุ่มตัวอย่างจากประชากร'],e:'เชิงพรรณนาอธิบายลักษณะของข้อมูลชุดที่มีอยู่'},
+ {q:'สถิติศาสตร์เชิงอนุมาน หมายถึงข้อใด',c:['การใช้ทฤษฎีความน่าจะเป็นและข้อมูลจากตัวอย่าง เพื่อหาข้อสรุปหรือประมาณค่าพารามิเตอร์ของประชากร','การสรุปสาระสำคัญของข้อมูลชุดหนึ่งเท่านั้น','การสร้างตารางแจกแจงความถี่','การนำเสนอข้อมูลด้วยแผนภูมิ'],e:'เชิงอนุมานใช้ตัวอย่างสรุปอ้างอิงไปยังประชากร'},
+ {q:'ข้อใดไม่ใช่วิธีการของสถิติศาสตร์เชิงพรรณนา',c:['การประมาณค่าพารามิเตอร์ของประชากรจากตัวอย่าง','การสร้างตารางแจกแจงความถี่','การหาค่ากลางของข้อมูล','การหาค่าวัดการกระจาย'],e:'การประมาณค่าพารามิเตอร์เป็นสถิติเชิงอนุมาน'},
+ {q:'การหาคะแนนสอบสูงสุดและต่ำสุดของวิชาคณิตศาสตร์ในห้องเรียน เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','ไม่ใช่สถิติ','การพยากรณ์'],e:'อธิบายลักษณะของข้อมูลชุดนั้นเท่านั้น'},
+ {q:'สำรวจจำนวนผู้เยี่ยมเยือนจากกลุ่มตัวอย่าง 5 จังหวัด แล้วใช้เป็นค่าประมาณของทั้งภาคกลาง เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงอนุมาน','สถิติศาสตร์เชิงพรรณนา','ข้อมูลเชิงคุณภาพ','ข้อมูลตัดขวาง'],e:'ใช้ตัวอย่างประมาณค่าระดับประชากร จึงเป็นเชิงอนุมาน'},
+ {q:'การหาร้อยละของระยะทางที่พักอาศัยของนักเรียนในห้อง เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','การพยากรณ์','การสุ่มตัวอย่าง'],e:'ร้อยละใช้สรุปลักษณะของข้อมูลชุดที่มี'},
+ {q:'สถิติศาสตร์เชิงอนุมานอาศัยทฤษฎีใดเป็นพื้นฐาน',c:['ทฤษฎีความน่าจะเป็น','ทฤษฎีบทพีทาโกรัส','ทฤษฎีเซต','ทฤษฎีกราฟ'],e:'เชิงอนุมานใช้ทฤษฎีความน่าจะเป็น'},
+ {q:'โรงงานสุ่มหลอดไฟ 50 หลอด เพื่อประมาณอายุการใช้งานเฉลี่ยของหลอดไฟทั้งล็อต เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงอนุมาน','สถิติศาสตร์เชิงพรรณนา','ข้อมูลทุติยภูมิ','ข้อมูลเชิงคุณภาพ'],e:'ใช้ตัวอย่าง 50 หลอดสรุปถึงหลอดไฟทั้งล็อต'},
+ {q:'การนำเสนอยอดขายของร้านในสัปดาห์นี้ด้วยแผนภูมิแท่ง เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','การพยากรณ์','การประมาณค่าพารามิเตอร์'],e:'แผนภูมิใช้แสดงลักษณะของข้อมูลชุดนั้น'},
+ {q:'ประโยชน์ของการนำเสนอข้อมูลด้วยกราฟคือข้อใด',c:['ช่วยให้เข้าใจแนวโน้มและภาพรวมของข้อมูลได้ง่ายขึ้น','ทำให้ข้อมูลมีจำนวนมากขึ้น','ทำให้ไม่ต้องวิเคราะห์ข้อมูล','ใช้แทนการเก็บรวบรวมข้อมูล'],e:'กราฟช่วยให้เห็นแนวโน้มและภาพรวมได้ชัดเจน'},
+ {q:'ข้อใดแสดงความแตกต่างระหว่างสถิติเชิงพรรณนาและเชิงอนุมานได้ถูกต้อง',c:['เชิงพรรณนาอธิบายเฉพาะข้อมูลที่มี ส่วนเชิงอนุมานสรุปอ้างอิงไปยังประชากร','เชิงพรรณนาใช้ความน่าจะเป็น ส่วนเชิงอนุมานไม่ใช้','ทั้งสองแบบเหมือนกันทุกประการ','เชิงอนุมานใช้ได้เฉพาะข้อมูลเชิงคุณภาพ'],e:'ความต่างหลักคือขอบเขตของข้อสรุป'},
+ {q:'ครูหาค่าเฉลี่ยน้ำหนักของนักเรียนทุกคนในห้อง ม.6/1 เพื่อบอกลักษณะของห้องนั้น เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','การพยากรณ์','ข้อมูลอนุกรมเวลา'],e:'อธิบายเฉพาะกลุ่มที่เก็บข้อมูล ไม่ได้อ้างอิงไปกลุ่มอื่น'},
+ {q:'ค่ากลางและค่าวัดการกระจายเป็นเครื่องมือของสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','ทฤษฎีความน่าจะเป็น','การสุ่มตัวอย่าง'],e:'ใช้สรุปลักษณะของข้อมูล จึงเป็นเชิงพรรณนา'}
+]};
+
+const FINAL_BANK=[
+ {q:'หน่วยงานหนึ่งต้องการทราบชั่วโมงการนอนเฉลี่ยของนักเรียน ม.6 ทั่วประเทศ จึงสุ่มนักเรียนมา 3,000 คน ข้อใดคือประชากร',c:['นักเรียน ม.6 ทั่วประเทศ','นักเรียน 3,000 คนที่ถูกสุ่ม','ชั่วโมงการนอน','ค่าเฉลี่ยชั่วโมงการนอนของ 3,000 คน'],e:'ประชากรคือหน่วยทั้งหมดที่สนใจ'},
+ {q:'จากการสุ่มนักเรียน ม.6 จำนวน 3,000 คน ชั่วโมงการนอนเฉลี่ยของนักเรียน 3,000 คนนี้คือข้อใด',c:['ค่าสถิติ','พารามิเตอร์','ประชากร','ตัวแปรเชิงคุณภาพ'],e:'คำนวณจากตัวอย่างจึงเป็นค่าสถิติ'},
+ {q:'การนำค่าเฉลี่ยของนักเรียน 3,000 คนที่สุ่มมา ไปสรุปถึงนักเรียน ม.6 ทั่วประเทศ เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงอนุมาน','สถิติศาสตร์เชิงพรรณนา','ข้อมูลตัดขวาง','ข้อมูลทุติยภูมิ'],e:'ใช้ตัวอย่างสรุปถึงประชากร'},
+ {q:'“ชั่วโมงการนอน” เป็นข้อมูลประเภทใด',c:['ข้อมูลเชิงปริมาณแบบต่อเนื่อง','ข้อมูลเชิงปริมาณแบบไม่ต่อเนื่อง','ข้อมูลเชิงคุณภาพ','ข้อมูลอนุกรมเวลา'],e:'เวลาได้จากการวัด มีทศนิยมได้'},
+ {q:'ข้อมูลที่ได้จากการสอบถามนักเรียนที่ถูกสุ่มโดยตรง เป็นข้อมูลประเภทใดตามแหล่งที่มา',c:['ข้อมูลปฐมภูมิ','ข้อมูลทุติยภูมิ','ข้อมูลอนุกรมเวลา','ข้อมูลเชิงคุณภาพ'],e:'เก็บโดยตรงจากแหล่งต้นกำเนิด'},
+ {q:'ครูนำคะแนนสอบของห้อง ม.6/2 มาทำตารางแจกแจงความถี่และหาค่าเฉลี่ยเพื่อรายงานผลของห้องนั้น เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','การพยากรณ์','การประมาณค่าพารามิเตอร์'],e:'อธิบายลักษณะของข้อมูลชุดที่มี'},
+ {q:'ข้อใดจับคู่สัญลักษณ์กับความหมายได้ถูกต้อง',c:['μ : ค่าเฉลี่ยของประชากร','{xbar} : ค่าเฉลี่ยของประชากร','s : ส่วนเบี่ยงเบนมาตรฐานของประชากร','σ² : ความแปรปรวนของตัวอย่าง'],e:'μ = ค่าเฉลี่ยประชากร, {xbar} = ค่าเฉลี่ยตัวอย่าง, s = SD ตัวอย่าง, σ² = ความแปรปรวนประชากร'},
+ {q:'ข้อใดกล่าวถูกต้องเกี่ยวกับพารามิเตอร์และค่าสถิติ',c:['พารามิเตอร์เป็นค่าคงตัวของประชากร ส่วนค่าสถิติคำนวณจากตัวอย่างและเปลี่ยนไปตามตัวอย่างที่ได้','ค่าสถิติคำนวณจากประชากรทั้งหมด','พารามิเตอร์คำนวณจากตัวอย่าง','ทั้งสองค่าเป็นค่าเดียวกันเสมอ'],e:'ตัวอย่างต่างชุดกันอาจให้ค่าสถิติต่างกัน'},
+ {q:'ปริมาณน้ำฝนรายปีของจังหวัดเชียงใหม่ย้อนหลัง 10 ปี ที่นำมาจากกรมอุตุนิยมวิทยา เป็นข้อมูลประเภทใด',c:['ทุติยภูมิ และอนุกรมเวลา','ปฐมภูมิ และตัดขวาง','ทุติยภูมิ และตัดขวาง','ปฐมภูมิ และอนุกรมเวลา'],e:'มีผู้รวบรวมไว้แล้ว และเรียงตามลำดับเวลา'},
+ {q:'ข้อใดเป็นข้อมูลเชิงคุณภาพทั้งหมด',c:['กรุ๊ปเลือด เพศ สีที่ชอบ','น้ำหนัก ส่วนสูง อายุ','จำนวนพี่น้อง เพศ ส่วนสูง','อุณหภูมิ สีที่ชอบ น้ำหนัก'],e:'กรุ๊ปเลือด เพศ และสีที่ชอบ ไม่ใช่ตัวเลขที่นำมาคำนวณได้'},
+ {q:'ข้อใดเป็นข้อมูลเชิงปริมาณแบบไม่ต่อเนื่องทั้งหมด',c:['จำนวนนักเรียนในห้อง จำนวนไข่ไก่ที่เก็บได้ จำนวนรถที่ผ่านสี่แยก','น้ำหนัก ส่วนสูง อุณหภูมิ','จำนวนนักเรียน น้ำหนัก เพศ','อุณหภูมิ จำนวนรถ กรุ๊ปเลือด'],e:'ทั้งหมดได้จากการนับ'},
+ {q:'บริษัทสุ่มตรวจสินค้า 200 ชิ้นจากล็อตการผลิตเพื่อตรวจมาตรฐาน เป็นประโยชน์ของสถิติด้านใด',c:['ด้านการผลิตและการควบคุมคุณภาพ','ด้านผู้บริโภค','ด้านการศึกษา','ด้านการเกษตรกรรม'],e:'เป็นการตรวจสอบและควบคุมคุณภาพ'},
+ {q:'ขั้นตอน “นำผลการวิเคราะห์มาอธิบายความหมาย” คือขั้นตอนใดขององค์ประกอบสถิติศาสตร์',c:['การตีความหมายข้อมูล','การนำเสนอข้อมูล','การเก็บรวบรวมข้อมูล','การวิเคราะห์ข้อมูล'],e:'การตีความหมายข้อมูลเป็นขั้นตอนที่ 4'},
+ {q:'ข้อใดเป็นข้อมูลตัดขวาง',c:['ราคาข้าวสารในแต่ละจังหวัด ณ วันที่ 1 มิถุนายน','อัตราแลกเปลี่ยนรายวันตลอดปี','ยอดขายรายเดือนของร้านค้า','จำนวนนักท่องเที่ยวรายปีย้อนหลัง 10 ปี'],e:'เก็บ ณ จุดเวลาเดียว'},
+ {q:'ข้อใดกล่าวไม่ถูกต้อง',c:['ข้อมูลเชิงคุณภาพสามารถนำมาบวก ลบ คูณ หาร ได้','ข้อมูลต่อเนื่องได้มาจากการวัด','ข้อมูลไม่ต่อเนื่องได้มาจากการนับ','ข้อมูลทุติยภูมิมีผู้รวบรวมไว้แล้ว'],e:'ข้อมูลเชิงคุณภาพนำมาบวก ลบ คูณ หาร ไม่ได้'},
+ {q:'นักเรียนถามเพื่อนทุกคนในห้อง 40 คนว่าชอบกีฬาอะไร แล้วสรุปเป็นร้อยละของห้องนั้น เป็นสถิติประเภทใด',c:['สถิติศาสตร์เชิงพรรณนา','สถิติศาสตร์เชิงอนุมาน','การประมาณค่าพารามิเตอร์ของประเทศ','การพยากรณ์'],e:'สรุปเฉพาะข้อมูลของห้องที่เก็บมา'},
+ {q:'เหตุผลสำคัญที่ต้องใช้ตัวอย่างแทนการศึกษาประชากรทั้งหมดคือข้อใด',c:['ประชากรอาจมีขนาดใหญ่มากหรือไม่จำกัด ทำให้เก็บข้อมูลได้ไม่ครบหรือสิ้นเปลืองมาก','ตัวอย่างให้ค่าพารามิเตอร์ที่แน่นอนเสมอ','ประชากรไม่มีตัวแปรให้ศึกษา','ตัวอย่างไม่ต้องใช้สถิติในการวิเคราะห์'],e:'ตัวอย่างช่วยประหยัดเวลาและค่าใช้จ่าย'},
+ {q:'“แบคทีเรียในร่างกายผู้ป่วย” เป็นประชากรแบบใด',c:['ประชากรที่มีจำนวนไม่จำกัด','ประชากรที่มีจำนวนจำกัด','ตัวอย่าง','พารามิเตอร์'],e:'มีจำนวนมากจนนับไม่ถ้วน'},
+ {q:'ความแปรปรวนของตัวอย่างใช้สัญลักษณ์ใด',c:['s²','σ²','μ','σ'],e:'s² = ความแปรปรวนของตัวอย่าง ส่วน σ² เป็นของประชากร'},
+ {q:'บริษัทใช้ยอดขายย้อนหลัง 5 ปี คาดการณ์ยอดขายของปีหน้า เป็นประโยชน์ของสถิติด้านใด',c:['ด้านการพยากรณ์','ด้านผู้บริโภค','ด้านการศึกษา','ด้านการเกษตรกรรม'],e:'ใช้ข้อมูลในอดีตคาดการณ์อนาคต'}
+];
+
+/* ================== เนื้อหาบทเรียน ================== */
+function flipCards(arr){return '<div class="flip-grid">'+arr.map(it=>`<div class="flip" onclick="this.classList.toggle('flipped')"><div class="flip-in"><div class="flip-f"><div class="ic">${it[0]}</div><b>${it[1]}</b><small>แตะเพื่อพลิก</small></div><div class="flip-b">${it[2]}</div></div></div>`).join('')+'</div>';}
+function actBox(id,title,desc){return `<div class="act"><div class="act-h">🎯 ${title}</div><div class="act-d">${desc}</div><div id="${id}"></div></div>`;}
+
+const LESSONS={
+s1:()=>`
+<section class="card"><h3>🌐 บทนำ</h3>
+<p>ปัจจุบันข้อมูลมีอยู่มากมายและหลากหลาย การจะวิเคราะห์ข้อมูลให้ได้อย่างมีประสิทธิภาพจึงต้องอาศัยความรู้ทางสถิติศาสตร์</p>
+<div class="ex"><b>ตัวอย่างการประยุกต์ใช้:</b> ร้านค้าหรือบริษัทสำรวจความพึงพอใจและพฤติกรรมของลูกค้า แล้วนำผลไปใช้ <b>ตัดสินใจและวางแผน</b> ปรับปรุงสินค้าและบริการ</div></section>
+<section class="card"><h3>📖 สถิติศาสตร์ (Statistics) คืออะไร</h3>
+<div class="def"><b>สถิติศาสตร์</b> คือ ศาสตร์ว่าด้วย <b>การเก็บรวบรวมข้อมูล การวิเคราะห์ข้อมูล และการสรุปผล</b> จากข้อมูลที่เกี่ยวข้อง เพื่ออธิบายปรากฏการณ์หรือตอบประเด็นที่สนใจ</div></section>
+<section class="card"><h3>🔄 องค์ประกอบของสถิติศาสตร์ 5 ขั้นตอน</h3>
+<div class="steps">
+<div class="step"><div class="n">1</div><b>การเก็บรวบรวมข้อมูล</b><p>รวบรวมข้อมูลที่เกี่ยวข้องกับเรื่องที่สนใจ เช่น สำรวจ สัมภาษณ์ ทดลอง</p></div>
+<div class="step"><div class="n">2</div><b>การนำเสนอข้อมูล</b><p>จัดข้อมูลให้เป็นระเบียบ ด้วยตาราง แผนภูมิ หรือกราฟ</p></div>
+<div class="step"><div class="n">3</div><b>การวิเคราะห์ข้อมูล</b><p>ใช้วิธีการทางสถิติหาสาระสำคัญของข้อมูล</p></div>
+<div class="step"><div class="n">4</div><b>การตีความหมายข้อมูล</b><p>อธิบายความหมายของผลการวิเคราะห์</p></div>
+<div class="step"><div class="n">5</div><b>การสรุปผล</b><p>สรุปคำตอบของประเด็นที่สนใจ เพื่อนำไปใช้ตัดสินใจ</p></div>
+</div>
+${actBox('a-order','เรียงลำดับขั้นตอนให้ถูกต้อง','คลิกปุ่มตามลำดับตั้งแต่ขั้นตอนที่ 1 ถึง 5')}</section>
+<section class="card"><h3>💡 ประโยชน์ของสถิติศาสตร์</h3><p class="mut">แตะการ์ดเพื่อพลิกดูรายละเอียด</p>
+${flipCards([['🎓','ด้านการศึกษา','วางแผนการจัดการศึกษา ประเมินผลการสอน และวิจัยทางการศึกษา'],['🌾','ด้านการเกษตรกรรม','วางแผนการเพาะปลูก พยากรณ์ผลผลิต ปรับปรุงพันธุ์พืชและสัตว์'],['🏭','ด้านการผลิตและการควบคุมคุณภาพ','วางแผนการผลิตให้สอดคล้องกับความต้องการ ตรวจสอบและควบคุมคุณภาพสินค้า'],['🛒','ด้านผู้บริโภค','ช่วยในการตัดสินใจเลือกซื้อสินค้าและบริการ'],['🔮','ด้านการพยากรณ์','วิเคราะห์ข้อมูลในอดีตเพื่อคาดการณ์อนาคต เช่น สภาพอากาศ เศรษฐกิจ']])}
+${actBox('a-benefit','ประโยชน์นี้เป็นด้านใด?','เลือกด้านที่ตรงกับสถานการณ์')}</section>`,
+s2:()=>`
+<section class="card"><h3>🧭 สถานการณ์ตั้งต้น</h3>
+<div class="ex">โรงเรียนแห่งหนึ่งมีนักเรียน ม.6 ทั้งหมด <b>1,200 คน</b> ต้องการทราบส่วนสูงเฉลี่ย จึง<b>สุ่มนักเรียนมา 100 คน</b> วัดส่วนสูงแล้วได้ค่าเฉลี่ย <b>165.4 ซม.</b></div>
+<p>สถานการณ์นี้มีคำสำคัญทางสถิติครบทุกคำ ลองศึกษาความหมายแต่ละคำด้านล่าง</p></section>
+<section class="card"><h3>🔑 คำสำคัญ 6 คำ</h3><div class="terms">
+<div class="term"><h4>👥 ประชากร (Population)</h4>กลุ่มของหน่วยทั้งหมดที่สนใจศึกษา<br><small>ตัวอย่าง: นักเรียน ม.6 ทั้งหมด 1,200 คน</small></div>
+<div class="term"><h4>🎯 ตัวอย่าง (Sample)</h4>กลุ่มย่อยของประชากรที่ถูกเลือกมาเพื่อเป็นตัวแทน<br><small>ตัวอย่าง: นักเรียน 100 คนที่สุ่มมา</small></div>
+<div class="term"><h4>📏 ตัวแปร (Variable)</h4>ลักษณะของประชากรหรือตัวอย่างที่สนใจศึกษาและวัดค่าได้<br><small>ตัวอย่าง: ส่วนสูง</small></div>
+<div class="term"><h4>🧾 ข้อมูล (Data)</h4>ข้อเท็จจริงที่ได้จากการรวบรวมค่าของตัวแปร<br><small>ตัวอย่าง: 160, 172, 168 ซม. …</small></div>
+<div class="term"><h4>🏛️ พารามิเตอร์ (Parameter)</h4>ค่าคงตัวที่แสดงลักษณะของประชากรทั้งหมด<br><small>ตัวอย่าง: ส่วนสูงเฉลี่ยจริงของนักเรียนทั้ง 1,200 คน</small></div>
+<div class="term"><h4>🧮 ค่าสถิติ (Statistic)</h4>ค่าที่คำนวณได้จากกลุ่มตัวอย่าง<br><small>ตัวอย่าง: ส่วนสูงเฉลี่ย 165.4 ซม. ของ 100 คน</small></div>
+</div>${actBox('a-match','จับคู่คำศัพท์กับความหมาย','คลิกคำศัพท์ทางซ้าย แล้วคลิกความหมายที่ตรงกันทางขวา')}</section>
+<section class="card"><h3>👥 ประชากรที่มีจำนวนจำกัดและไม่จำกัด</h3><div class="two">
+<div class="box"><h4>✅ มีจำนวนจำกัด</h4>นับจำนวนหน่วยทั้งหมดได้ครบถ้วน<ul><li>นักเรียน ม.6 ทั้งหมดในโรงเรียน</li><li>รถยนต์ที่บริษัทผลิตได้ในเดือนมกราคม</li></ul></div>
+<div class="box"><h4>♾️ มีจำนวนไม่จำกัด</h4>นับไม่ได้หรือมีจำนวนมากจนนับไม่ถ้วน<ul><li>ปลาในแม่น้ำเจ้าพระยา</li><li>จำนวนครั้งที่โยนเหรียญจนกว่าจะออกหัวติดกัน 3 ครั้ง</li><li>ประชากรโลก, แบคทีเรียในร่างกายผู้ป่วย</li></ul></div>
+</div>${actBox('a-finite','ประชากรจำกัดหรือไม่จำกัด?','เลือกคำตอบให้แต่ละข้อ')}</section>
+<section class="card"><h3>🔣 สัญลักษณ์ของพารามิเตอร์และค่าสถิติ</h3>
+<table class="tb"><tr><th>ลักษณะที่สนใจ</th><th>พารามิเตอร์ (ประชากร)</th><th>ค่าสถิติ (ตัวอย่าง)</th></tr>
+<tr><td>ค่าเฉลี่ย</td><td class="sym">μ</td><td class="sym">{xbar}</td></tr>
+<tr><td>ส่วนเบี่ยงเบนมาตรฐาน</td><td class="sym">σ</td><td class="sym">s</td></tr>
+<tr><td>ความแปรปรวน</td><td class="sym">σ²</td><td class="sym">s²</td></tr>
+<tr><td>สัดส่วน</td><td class="sym">p</td><td class="sym">p̂</td></tr></table>
+<div class="tip">💡 <b>เทคนิคจำ:</b> <b>P</b>arameter คู่กับ <b>P</b>opulation ส่วน <b>S</b>tatistic คู่กับ <b>S</b>ample และพารามิเตอร์ส่วนใหญ่ใช้อักษรกรีก (μ, σ)</div>
+${actBox('a-symbol','สัญลักษณ์นี้คือพารามิเตอร์หรือค่าสถิติ?','จำแนกสัญลักษณ์แต่ละตัว')}
+${actBox('a-scene','วิเคราะห์สถานการณ์ตั้งต้น','สถานการณ์นักเรียน 1,200 คน สุ่มมา 100 คน: แต่ละข้อความคืออะไร')}</section>`,
+s3:()=>`
+<section class="card"><h3>🗂️ ภาพรวมการจำแนกประเภทของข้อมูล</h3>
+<div class="tree"><ul><li><span class="nd">ประเภทของข้อมูล</span><ul>
+<li><span class="nd l2">1. ตามแหล่งที่มา</span><ul><li><span class="nd l3">ข้อมูลปฐมภูมิ</span></li><li><span class="nd l3">ข้อมูลทุติยภูมิ</span></li></ul></li>
+<li><span class="nd l2">2. ตามระยะเวลา</span><ul><li><span class="nd l3">ข้อมูลตัดขวาง</span></li><li><span class="nd l3">ข้อมูลอนุกรมเวลา</span></li></ul></li>
+<li><span class="nd l2">3. ตามลักษณะของข้อมูล</span><ul><li><span class="nd l3">เชิงปริมาณ</span> → แบบไม่ต่อเนื่อง / แบบต่อเนื่อง</li><li><span class="nd l3">เชิงคุณภาพ</span></li></ul></li>
+</ul></li></ul></div></section>
+<section class="card"><h3>1️⃣ จำแนกตามแหล่งที่มา</h3><div class="two">
+<div class="box"><h4>📝 ข้อมูลปฐมภูมิ (Primary Data)</h4>ข้อมูลที่ผู้ศึกษา<b>เก็บรวบรวมเองโดยตรง</b>จากแหล่งต้นกำเนิด<br><small class="mut">เช่น การสัมภาษณ์ แบบสอบถาม การสังเกต การทดลอง</small></div>
+<div class="box"><h4>📚 ข้อมูลทุติยภูมิ (Secondary Data)</h4>ข้อมูลที่<b>มีผู้รวบรวมไว้อยู่แล้ว</b><br><small class="mut">เช่น รายงานจากหน่วยงานราชการ สถิติจากเว็บไซต์ทางการ งานวิจัยที่เผยแพร่แล้ว</small></div>
+</div>${actBox('a-source','ปฐมภูมิหรือทุติยภูมิ?','จำแนกข้อมูลแต่ละข้อ')}</section>
+<section class="card"><h3>2️⃣ จำแนกตามระยะเวลา</h3><div class="two">
+<div class="box"><h4>📸 ข้อมูลตัดขวาง (Cross-sectional)</h4>ข้อมูลที่เก็บ <b>ณ จุดเวลาใดเวลาหนึ่ง</b><br><small class="mut">เช่น จำนวนนักเรียนแต่ละชั้นในปีการศึกษานี้</small></div>
+<div class="box"><h4>📈 ข้อมูลอนุกรมเวลา (Time Series)</h4>ข้อมูลที่เก็บ <b>ต่อเนื่องตามลำดับเวลา</b><br><small class="mut">เช่น ยอดขายรายเดือน อุณหภูมิรายวัน</small></div>
+</div>${actBox('a-time','ตัดขวางหรืออนุกรมเวลา?','จำแนกข้อมูลแต่ละข้อ')}</section>
+<section class="card"><h3>3️⃣ จำแนกตามลักษณะของข้อมูล</h3><div class="two">
+<div class="box"><h4>🔢 ข้อมูลเชิงปริมาณ (Quantitative)</h4>วัดหรือนับออกมาเป็นตัวเลขได้
+<ul><li><b>แบบไม่ต่อเนื่อง (Discrete):</b> เป็นจำนวนนับหรือจำนวนเต็ม เช่น จำนวนนักเรียน จำนวนรถยนต์ที่ผ่านสี่แยก จำนวนไข่ไก่ที่เก็บได้ใน 1 วัน</li>
+<li><b>แบบต่อเนื่อง (Continuous):</b> มีค่าได้ทุกค่าในช่วงที่กำหนด มีทศนิยมได้ (มาจากการวัด) เช่น น้ำหนัก ส่วนสูง อุณหภูมิ</li></ul></div>
+<div class="box"><h4>🎨 ข้อมูลเชิงคุณภาพ (Qualitative)</h4>อธิบายลักษณะ ประเภท หรือสมบัติ <b>ไม่สามารถนำมาบวก ลบ คูณ หาร ได้</b><br><small class="mut">เช่น สี เพศ ประเภทสินค้า กรุ๊ปเลือด</small></div>
+</div><div class="tip">💡 <b>เทคนิคจำ:</b> “<b>นับ</b>” → ไม่ต่อเนื่อง, “<b>วัด</b>” → ต่อเนื่อง, “<b>บอกลักษณะ</b>” → เชิงคุณภาพ</div>
+${actBox('a-nature','จำแนกตามลักษณะของข้อมูล','เลือกประเภทให้ข้อมูลแต่ละข้อ')}</section>`,
+s4:()=>`
+<section class="card"><h3>🔍 สถิติศาสตร์ 2 ประเภท</h3><div class="two">
+<div class="box" style="border-color:#6366f1"><h4>📋 สถิติศาสตร์เชิงพรรณนา<br><small>(Descriptive Statistics)</small></h4>
+การวิเคราะห์เพื่อ<b>สรุปสาระสำคัญหรืออธิบายลักษณะของข้อมูลชุดหนึ่ง</b>
+<p><b>เครื่องมือ:</b> ตารางแจกแจงความถี่ แผนภูมิ กราฟ ร้อยละ ค่ากลาง (เช่น ค่าเฉลี่ย) ค่าวัดการกระจาย</p>
+<div class="ex">• คะแนนสอบสูงสุด–ต่ำสุดของวิชาคณิตศาสตร์<br>• ร้อยละของระยะทางที่พักอาศัยของนักเรียน</div></div>
+<div class="box" style="border-color:#f59e0b"><h4>🔭 สถิติศาสตร์เชิงอนุมาน<br><small>(Inferential Statistics)</small></h4>
+การใช้<b>ทฤษฎีความน่าจะเป็น</b>และ<b>ข้อมูลจากตัวอย่าง</b> เพื่อหาข้อสรุปหรือประมาณค่าพารามิเตอร์ของประชากรทั้งหมด
+<div class="ex">• สำรวจจำนวนผู้เยี่ยมเยือนจากกลุ่มตัวอย่าง 5 จังหวัด เพื่อใช้เป็นค่าประมาณของพารามิเตอร์ระดับภาคกลาง</div></div>
+</div></section>
+<section class="card"><h3>🔁 กระบวนการของสถิติเชิงอนุมาน</h3>
+<div class="flow"><span>👥 ประชากร</span><b>→</b><span>🎲 สุ่ม</span><b>→</b><span>🎯 ตัวอย่าง</span><b>→</b><span>🧮 คำนวณค่าสถิติ</span><b>→</b><span>🔭 อนุมานไปยังพารามิเตอร์</span></div>
+<table class="tb"><tr><th>ประเด็น</th><th>เชิงพรรณนา</th><th>เชิงอนุมาน</th></tr>
+<tr><td>จุดมุ่งหมาย</td><td>อธิบายลักษณะของข้อมูลชุดที่มี</td><td>สรุปอ้างอิงไปยังประชากร</td></tr>
+<tr><td>ข้อมูลที่ใช้</td><td>ข้อมูลชุดที่เก็บมา</td><td>ข้อมูลจากตัวอย่าง</td></tr>
+<tr><td>ทฤษฎีความน่าจะเป็น</td><td>ไม่จำเป็น</td><td>จำเป็น</td></tr>
+<tr><td>ขอบเขตข้อสรุป</td><td>เฉพาะกลุ่มที่ศึกษา</td><td>ขยายไปถึงประชากรทั้งหมด</td></tr></table>
+<div class="tip">💡 <b>ถามตัวเองว่า:</b> “ข้อสรุปนี้พูดถึงเฉพาะข้อมูลที่เก็บมา หรือขยายไปถึงกลุ่มที่ใหญ่กว่า?” ถ้าพูดถึงเฉพาะข้อมูลที่เก็บมาเป็นเชิงพรรณนา ถ้าขยายไปถึงกลุ่มที่ใหญ่กว่าเป็นเชิงอนุมาน</div>
+${actBox('a-desinf','เชิงพรรณนาหรือเชิงอนุมาน?','จำแนกสถานการณ์แต่ละข้อ')}</section>`
+};
+
+function initActivities(key){
+ if(key==='s1'){
+  mountOrder('a-order',['การเก็บรวบรวมข้อมูล','การนำเสนอข้อมูล','การวิเคราะห์ข้อมูล','การตีความหมายข้อมูล','การสรุปผล']);
+  mountClassify('a-benefit',['การศึกษา','เกษตรกรรม','การผลิตฯ','ผู้บริโภค','การพยากรณ์'],[
+   {t:'ครูใช้คะแนนสอบประเมินผลการสอนของตนเอง',a:0},{t:'เกษตรกรพยากรณ์ผลผลิตข้าวของฤดูกาลหน้า',a:1},{t:'โรงงานตรวจสอบว่าขนมแต่ละห่อมีน้ำหนักได้มาตรฐาน',a:2},{t:'เปรียบเทียบรีวิวและราคาก่อนซื้อโทรศัพท์',a:3},{t:'กรมอุตุนิยมวิทยาคาดการณ์ปริมาณฝนสัปดาห์หน้า',a:4}]);
+ }
+ if(key==='s2'){
+  mountMatch('a-match',[['ประชากร','กลุ่มของหน่วยทั้งหมดที่สนใจศึกษา'],['ตัวอย่าง','กลุ่มย่อยของประชากรที่ถูกเลือกมาเป็นตัวแทน'],['ตัวแปร','ลักษณะที่สนใจศึกษาและวัดค่าได้'],['ข้อมูล','ข้อเท็จจริงจากการรวบรวมค่าของตัวแปร'],['พารามิเตอร์','ค่าคงตัวที่แสดงลักษณะของประชากร'],['ค่าสถิติ','ค่าที่คำนวณได้จากกลุ่มตัวอย่าง']]);
+  mountClassify('a-finite',['จำกัด','ไม่จำกัด'],[
+   {t:'นักเรียน ม.6 ทั้งหมดในโรงเรียน',a:0},{t:'รถยนต์ที่บริษัทผลิตได้ในเดือนมกราคม',a:0},{t:'ครูทั้งหมดในโรงเรียน',a:0},{t:'ปลาในแม่น้ำเจ้าพระยา',a:1},{t:'แบคทีเรียในร่างกายผู้ป่วย',a:1},{t:'จำนวนครั้งที่โยนเหรียญจนกว่าจะออกหัวติดกัน 3 ครั้ง',a:1}]);
+  mountClassify('a-symbol',['พารามิเตอร์','ค่าสถิติ'],[
+   {t:'μ',a:0,e:'μ = ค่าเฉลี่ยของประชากร'},{t:'{xbar}',a:1,e:'{xbar} = ค่าเฉลี่ยของตัวอย่าง'},{t:'σ',a:0,e:'σ = ส่วนเบี่ยงเบนมาตรฐานของประชากร'},{t:'s',a:1,e:'s = ส่วนเบี่ยงเบนมาตรฐานของตัวอย่าง'},{t:'σ²',a:0,e:'σ² = ความแปรปรวนของประชากร'},{t:'s²',a:1,e:'s² = ความแปรปรวนของตัวอย่าง'},{t:'p',a:0,e:'p = สัดส่วนของประชากร'},{t:'p̂',a:1,e:'p̂ = สัดส่วนของตัวอย่าง'}]);
+  mountClassify('a-scene',['ประชากร','ตัวอย่าง','ตัวแปร','ข้อมูล','พารามิเตอร์','ค่าสถิติ'],[
+   {t:'นักเรียน ม.6 ทั้งหมด 1,200 คน',a:0},{t:'นักเรียน 100 คนที่สุ่มมา',a:1},{t:'ส่วนสูง',a:2},{t:'ค่าส่วนสูงที่วัดได้ เช่น 160, 172, 168 ซม.',a:3},{t:'ส่วนสูงเฉลี่ยที่แท้จริงของนักเรียนทั้ง 1,200 คน',a:4},{t:'ส่วนสูงเฉลี่ย 165.4 ซม. ของนักเรียน 100 คน',a:5}]);
+ }
+ if(key==='s3'){
+  mountClassify('a-source',['ปฐมภูมิ','ทุติยภูมิ'],[
+   {t:'สัมภาษณ์ผู้ปกครองด้วยตนเอง',a:0},{t:'จำนวนประชากรจากรายงานของหน่วยงานราชการ',a:1},{t:'จับเวลาวิ่ง 100 เมตรของเพื่อนด้วยตนเอง',a:0},{t:'สถิติปริมาณน้ำฝนจากเว็บไซต์กรมอุตุนิยมวิทยา',a:1},{t:'แจกแบบสอบถามความพึงพอใจอาหารกลางวันที่ออกแบบเอง',a:0},{t:'ตัวเลขจากงานวิจัยที่ตีพิมพ์แล้ว',a:1}]);
+  mountClassify('a-time',['ตัดขวาง','อนุกรมเวลา'],[
+   {t:'จำนวนนักเรียนแต่ละชั้นในปีการศึกษานี้',a:0},{t:'ยอดขายรายเดือนของร้านตั้งแต่ ม.ค.–ธ.ค.',a:1},{t:'คะแนนสอบกลางภาคของทุกคนในการสอบครั้งนี้',a:0},{t:'อุณหภูมิสูงสุดรายวันตลอดเดือนเมษายน',a:1},{t:'ราคาน้ำมันรายสัปดาห์ย้อนหลัง 2 ปี',a:1},{t:'ราคาข้าวสารในแต่ละจังหวัด ณ วันที่ 1 มิถุนายน',a:0}]);
+  mountClassify('a-nature',['เชิงคุณภาพ','ไม่ต่อเนื่อง','ต่อเนื่อง'],[
+   {t:'สีที่ชอบ',a:0},{t:'จำนวนพี่น้อง',a:1},{t:'น้ำหนักตัว',a:2},{t:'กรุ๊ปเลือด',a:0},{t:'จำนวนไข่ไก่ที่เก็บได้ใน 1 วัน',a:1},{t:'อุณหภูมิร่างกาย',a:2},{t:'ประเภทสินค้า',a:0},{t:'จำนวนรถยนต์ที่ผ่านสี่แยก',a:1},{t:'ส่วนสูง',a:2}]);
+ }
+ if(key==='s4'){
+  mountClassify('a-desinf',['เชิงพรรณนา','เชิงอนุมาน'],[
+   {t:'หาคะแนนสอบสูงสุด–ต่ำสุดของวิชาคณิตศาสตร์ในห้อง',a:0},{t:'หาร้อยละของระยะทางที่พักอาศัยของนักเรียนในห้อง',a:0},{t:'สำรวจผู้เยี่ยมเยือน 5 จังหวัดเพื่อประมาณภาพรวมของภาคกลาง',a:1},{t:'สุ่มหลอดไฟ 50 หลอดเพื่อประมาณอายุการใช้งานเฉลี่ยของทั้งล็อต',a:1},{t:'ทำแผนภูมิแท่งยอดขายของร้านในสัปดาห์นี้',a:0},{t:'สุ่มชาวนา 300 รายเพื่อประมาณผลผลิตข้าวเฉลี่ยต่อไร่ของทั้งจังหวัด',a:1},{t:'หาค่าเฉลี่ยน้ำหนักของนักเรียนทุกคนในห้อง ม.6/1',a:0},{t:'สุ่มน้ำดื่ม 30 ขวดเพื่อสรุปว่าน้ำทั้งล็อตได้มาตรฐานหรือไม่',a:1}]);
+ }
+}
+
+/* ================== กิจกรรมโต้ตอบ ================== */
+function mountOrder(id,steps){
+ const el=document.getElementById(id);if(!el)return;let next=0;
+ const items=shuffle(steps.map((t,i)=>({t,i})));
+ el.innerHTML=`<div class="ordans" id="${id}-ans"></div><div class="pool">${items.map(o=>`<button class="pbtn" data-i="${o.i}">${o.t}</button>`).join('')}</div><div class="fb" id="${id}-fb"></div><button class="btn sm ghost" id="${id}-rs">↺ เริ่มใหม่</button>`;
+ const fb=document.getElementById(id+'-fb');
+ el.querySelectorAll('.pool .pbtn').forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.i;
+  if(i===next){b.disabled=true;b.classList.add('ok');document.getElementById(id+'-ans').insertAdjacentHTML('beforeend',`<div><span>${next+1}</span>${steps[i]}</div>`);next++;
+   if(next===steps.length){fb.className='fb ok';fb.textContent='🎉 ยอดเยี่ยม! เรียงครบทั้ง 5 ขั้นตอนถูกต้อง';}else{fb.className='fb ok';fb.textContent='✔ ถูกต้อง! ขั้นตอนที่ '+(next+1)+' คืออะไร?';}}
+  else{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');fb.className='fb bad';fb.textContent='✘ ยังไม่ใช่ขั้นตอนที่ '+(next+1)+' ลองใหม่นะ';}
+ });
+ document.getElementById(id+'-rs').onclick=()=>mountOrder(id,steps);
+}
+function mountMatch(id,pairs){
+ const el=document.getElementById(id);if(!el)return;
+ const L=shuffle(pairs.map((p,i)=>({t:p[0],i}))),R=shuffle(pairs.map((p,i)=>({t:p[1],i})));
+ el.innerHTML=`<div class="match"><div class="col">${L.map(o=>`<button class="pbtn" data-s="L" data-i="${o.i}">${o.t}</button>`).join('')}</div><div class="col">${R.map(o=>`<button class="pbtn" data-s="R" data-i="${o.i}">${o.t}</button>`).join('')}</div></div><div class="fb" id="${id}-fb"></div><button class="btn sm ghost" id="${id}-rs">↺ เริ่มใหม่</button>`;
+ let sel=null,done=0,miss=0;const fb=document.getElementById(id+'-fb');
+ el.querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>{
+  if(b.disabled)return;
+  if(b.dataset.s==='L'){el.querySelectorAll('[data-s=L]').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b;return;}
+  if(!sel){fb.className='fb bad';fb.textContent='เลือกคำศัพท์ทางซ้ายก่อนนะ';return;}
+  if(b.dataset.i===sel.dataset.i){[b,sel].forEach(x=>{x.classList.remove('sel');x.classList.add('ok');x.disabled=true;});sel=null;done++;
+   fb.className='fb ok';fb.textContent=done===pairs.length?`🎉 จับคู่ครบทั้ง ${pairs.length} คู่! (ผิด ${miss} ครั้ง)`:`✔ ถูกต้อง! (${done}/${pairs.length})`;}
+  else{miss++;b.classList.add('bad','shake');setTimeout(()=>b.classList.remove('bad','shake'),500);fb.className='fb bad';fb.textContent='✘ ยังไม่ตรงกัน ลองใหม่';}
+ });
+ document.getElementById(id+'-rs').onclick=()=>mountMatch(id,pairs);
+}
+function mountClassify(id,cats,items){
+ const el=document.getElementById(id);if(!el)return;
+ const list=shuffle(items);let ans=0,ok=0;
+ el.innerHTML=list.map((it,k)=>`<div class="cls-row" id="${id}-r${k}"><div class="cls-t">${k+1}. ${fmt(it.t)}</div><div class="cls-btns">${cats.map((c,ci)=>`<button class="pbtn" data-k="${k}" data-c="${ci}">${c}</button>`).join('')}</div><div class="cls-e"></div></div>`).join('')+`<div class="fb" id="${id}-fb"></div>`;
+ el.querySelectorAll('.cls-btns .pbtn').forEach(b=>b.onclick=()=>{
+  const k=+b.dataset.k,c=+b.dataset.c,row=document.getElementById(id+'-r'+k);
+  if(row.dataset.done)return;row.dataset.done=1;ans++;const it=list[k];
+  row.querySelectorAll('.pbtn').forEach(x=>{x.disabled=true;if(+x.dataset.c===it.a)x.classList.add('ok');});
+  if(c===it.a){ok++;row.classList.add('ok');row.querySelector('.cls-e').innerHTML='✔ ถูกต้อง '+(it.e?fmt(it.e):'');}
+  else{b.classList.add('bad');row.classList.add('bad');row.querySelector('.cls-e').innerHTML='✘ คำตอบที่ถูกคือ <b>'+cats[it.a]+'</b> '+(it.e?'· '+fmt(it.e):'');}
+  const fb=document.getElementById(id+'-fb');
+  if(ans===list.length){fb.className='fb '+(ok===list.length?'ok':'');fb.innerHTML=`ได้ ${ok}/${list.length} ข้อ ${ok===list.length?'🎉 เยี่ยมมาก!':'💪 '} <button class="btn sm ghost" onclick='mountClassify("${id}",${JSON.stringify(cats)},${JSON.stringify(items).replace(/'/g,"&#39;")})'>↺ ลองอีกครั้ง</button>`;}
+  else{fb.className='fb';fb.textContent=`ทำแล้ว ${ans}/${list.length} · ถูก ${ok} ข้อ`;}
+ });
+}
+
+/* ================== สถานะนักเรียน ================== */
+function passed(s,k){return !!(s&&s.quizzes&&s.quizzes[k]&&s.quizzes[k].passed);}
+function unlocked(s,i){return i===0||passed(s,SECTIONS[i-1].key);}
+function allSec(s){return SECTIONS.every(x=>passed(s,x.key));}
+function progressPct(s){const n=SECTIONS.filter(x=>passed(s,x.key)).length+(passed(s,'final')?1:0);return Math.round(n/5*100);}
+
+function formatX(str){
+  const xbarHtml = '<span style="display:inline-block;position:relative;"><span style="position:absolute;top:-8px;left:0;right:0;text-align:center;font-size:14px;line-height:1;">¯</span>x</span>';
+  return String(str).replace(/\{xbar\}/g, xbarHtml);
+}
+function fmt(s){return formatX(s);}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function thDate(iso){return new Date(iso).toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});}
+function thDT(iso){return new Date(iso).toLocaleString('th-TH',{day:'numeric',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'});}
+
+function header(){
+  const s=me();const p=progressPct(s);
+  const st=DB.settings;
+  return `<header class="topbar no-print"><div class="brand" onclick="goHome()">📊 ${st.subjectCode} ${st.subjectName}</div><div class="tb-prog"><div class="pbar"><i style="width:${p}%"></i></div><small><b>${p}%</b></small></div><div class="tb-user">👤 ${esc(s.name)} <button class="btn sm ghost" onclick="logout()">ออกจากระบบ</button></div></header>`;
+}
+
+/* ================== หน้าเข้าสู่ระบบ ================== */
+function renderLogin(){
+  const st=DB.settings;
+  view(`<div class="login-wrap"><div class="card login-card"><div class="logo">📊</div>
+  <h1 style="margin:.2em 0 0">${st.subjectName}</h1><p class="mut" style="margin:0">(${st.subjectCode}) · ${st.gradeLevel}<br>${st.unitName}</p>
+  <form onsubmit="doLogin();return false;" style="margin-top:16px">
+  <label>ชื่อ-นามสกุล *</label><input id="inName" placeholder="เช่น ด.ญ.สมใจ ใฝ่เรียน" autocomplete="off">
+  <div class="row"><div><label>ชั้น</label><input id="inRoom" placeholder="ม.6/1"></div><div><label>เลขที่</label><input id="inNo" type="number" min="1" placeholder="1"></div></div>
+  <button class="btn" style="width:100%;margin:18px 0 0;padding:13px" type="submit">🚀 เข้าสู่บทเรียน</button></form>
+  <p class="mut" style="font-size:13.5px;margin:12px 0 0">ใช้ชื่อ ชั้น และเลขที่เดิมเพื่อเรียนต่อจากครั้งก่อน</p>
+  <button class="linkbtn" onclick="openAdminLogin()">🔐 สำหรับผู้ดูแลระบบ</button></div></div>`);
+  setTimeout(()=>document.getElementById('inName').focus(),50);
+}
+
+function doLogin(){
+ const name=document.getElementById('inName').value.trim().replace(/\s+/g,' ');
+ const room=document.getElementById('inRoom').value.trim(),no=document.getElementById('inNo').value.trim();
+ if(name.length<2){toast('กรุณากรอกชื่อ-นามสกุล');return;}
+ const id=(name+'|'+room+'|'+no).toLowerCase();
+ const now=new Date().toISOString();
+ if(DB.students[id]){toast('ยินดีต้อนรับกลับ '+name+' 👋');DB.students[id].updated=now;}
+ else{DB.students[id]={id,name,room,no,created:now,updated:now,quizzes:{}};toast('ยินดีต้อนรับ '+name+' 🎉');}
+ saveDB();ME=id;sessionStorage.setItem('stat6_me2',id);goHome();
+}
+function logout(){if(!confirm('ต้องการออกจากระบบหรือไม่?'))return;ME=null;sessionStorage.removeItem('stat6_me2');renderLogin();}
+
+/* ================== หน้าหลัก ================== */
+function goHome(){
+ const s=me();if(!s){renderLogin();return;}
+ const st=DB.settings;
+ const cards=SECTIONS.map((x,i)=>{const un=unlocked(s,i),ps=passed(s,x.key),q=s.quizzes[x.key];
+  const chip=ps?`<span class="chip pass">✅ ผ่านแล้ว · ${q.best}/5</span>`:un?`<span class="chip go">📖 พร้อมเรียน</span>`:`<span class="chip lock">🔒 ผ่านส่วนที่ ${i} ก่อน</span>`;
+  return `<div class="scard ${un?'':'locked'}" style="--c:${x.color}"><div class="ic">${x.icon}</div><small class="mut">ส่วนที่ ${x.no}</small><h3 style="margin:0">${x.title}</h3><p>${x.desc}</p>${chip}<button class="btn sm" ${un?'':'disabled'} onclick="openLesson(${i})">${ps?'ทบทวน':'เข้าเรียน'} →</button></div>`;}).join('');
+ const all=allSec(s),fp=passed(s,'final'),fq=s.quizzes.final;
+ view(header()+`<main class="wrap">
+ <div class="hero"><h2>สวัสดี ${esc(s.name)} 👋</h2><p>ยินดีต้อนรับสู่บทเรียน <b>${st.subjectCode} ${st.subjectName} (${st.gradeLevel})<br>${st.unitName}</b></p>
+ <p style="font-size:15px">📌 เรียนทีละส่วน แล้วทำแบบทดสอบย่อยส่วนละ 5 ข้อ (ผ่าน ${st.passPct}%) เพื่อปลดล็อกส่วนถัดไป เมื่อผ่านครบ 4 ส่วนจะได้รับการ์ดสรุป จากนั้นทำแบบทดสอบประมวลความรู้ 10 ข้อ (ผ่าน ${st.finalPassPct}%) เพื่อรับเกียรติบัตร<br>🎲 ข้อสอบสุ่มจากคลังทุกครั้ง แต่ละคนจึงได้ข้อสอบไม่เหมือนกัน</p></div>
+ <div class="grid">${cards}
+ <div class="scard ${all?'':'locked'}" style="--c:#8b5cf6"><div class="ic">🗒️</div><small class="mut">เรียนครบ 4 ส่วน</small><h3 style="margin:0">การ์ดสรุปบทเรียน</h3><p>สรุปสาระสำคัญทั้งหน่วยและคะแนนของคุณ</p>${all?'<span class="chip pass">✅ ปลดล็อกแล้ว</span>':'<span class="chip lock">🔒 ผ่านครบ 4 ส่วนก่อน</span>'}<button class="btn sm" ${all?'':'disabled'} onclick="renderSummary()">ดูการ์ดสรุป →</button></div>
+ <div class="scard ${all?'':'locked'}" style="--c:#ef4444"><div class="ic">🏁</div><small class="mut">ทุกส่วน · 10 ข้อ</small><h3 style="margin:0">แบบทดสอบประมวลความรู้</h3><p>วัดความรู้ความเข้าใจจากทุกส่วน</p>${fp?`<span class="chip pass">✅ ผ่าน · ${fq.best}/10</span>`:all?'<span class="chip go">📝 พร้อมสอบ</span>':'<span class="chip lock">🔒 ผ่านครบ 4 ส่วนก่อน</span>'}<button class="btn sm" ${all?'':'disabled'} onclick="startQuiz('final')">เริ่มทำแบบทดสอบ →</button></div>
+ <div class="scard ${fp?'':'locked'}" style="--c:#d4a017"><div class="ic">🏅</div><small class="mut">เมื่อผ่านแบบทดสอบประมวลความรู้</small><h3 style="margin:0">เกียรติบัตร</h3><p>รับรองโดย ${st.teacherName} (${st.teacherPos})</p>${fp?'<span class="chip pass">🎉 พร้อมรับ</span>':'<span class="chip lock">🔒 ยังไม่ผ่าน</span>'}<button class="btn sm gold" ${fp?'':'disabled'} onclick="renderCert(ME)">รับเกียรติบัตร →</button></div>
+ </div></main>`);
+}
+
+/* ================== หน้าบทเรียน ================== */
+function openLesson(i){
+ const s=me(),x=SECTIONS[i];if(!unlocked(s,i)){toast('ส่วนนี้ยังล็อกอยู่');return;}
+ const tabs=SECTIONS.map((y,j)=>`<button class="${j===i?'on':''}" ${unlocked(s,j)?'':'disabled'} onclick="openLesson(${j})">${y.icon} ส่วนที่ ${y.no}</button>`).join('');
+ view(header()+`<main class="wrap"><div class="tabs no-print"><button onclick="goHome()">🏠 หน้าหลัก</button>${tabs}</div>
+ <div class="lesson-hero" style="--c:linear-gradient(135deg,${x.color},#1e1b4b)"><div class="lh-ic">${x.icon}</div><div><small>ส่วนที่ ${x.no}</small><h2>${x.title}</h2><p style="margin:0;opacity:.9">${x.desc}</p></div></div>
+ ${LESSONS[x.key]()}
+ <section class="summary-box"><h3>📌 สรุปสาระสำคัญ ส่วนที่ ${x.no}</h3><ul>${SUMMARY[x.key].map(t=>`<li>${t}</li>`).join('')}</ul></section>
+ <div class="card center" style="margin-top:18px"><h3>📝 พร้อมทดสอบแล้วหรือยัง?</h3><p class="mut">แบบทดสอบย่อย 5 ข้อ สุ่มจากคลัง ${BANK[x.key].length} ข้อ · เกณฑ์ผ่าน ${DB.settings.passPct}%</p>
+ <button class="btn" onclick="startQuiz('${x.key}')">เริ่มทำแบบทดสอบย่อย →</button></div></main>`);
+ initActivities(x.key);
+}
+
+/* ================== ระบบแบบทดสอบ ================== */
+function startQuiz(key){
+ const s=me();const isF=key==='final';
+ if(isF&&!allSec(s)){toast('ต้องผ่านครบ 4 ส่วนก่อน');return;}
+ const bank=isF?FINAL_BANK:BANK[key],n=isF?10:5;
+ const idx=shuffle(bank.map((_,i)=>i)).slice(0,n);
+ QUIZ={key,n,items:idx.map(i=>({q:bank[i].q,e:bank[i].e,opts:shuffle(bank[i].c.map((t,j)=>({t,ok:j===0})))})),ans:Array(n).fill(null),
+  code:key.toUpperCase()+'-'+idx.map(i=>i.toString(36)).join('').toUpperCase()+'-'+Math.random().toString(36).slice(2,5).toUpperCase()};
+ const sec=isF?null:SECTIONS.find(x=>x.key===key);
+ const title=isF?'แบบทดสอบประมวลความรู้ความเข้าใจ':`แบบทดสอบย่อย ส่วนที่ ${sec.no}: ${sec.title}`;
+ const thr=isF?DB.settings.finalPassPct:DB.settings.passPct;
+ view(header()+`<main class="wrap"><div class="card quiz-head"><div><small>📝 ${isF?'ครอบคลุมทุกส่วน · 10 ข้อ':'5 ข้อ'} · สุ่มจากคลัง ${bank.length} ข้อ</small><h2>${title}</h2><div style="font-size:15px">เกณฑ์ผ่าน ${thr}% · รหัสชุดข้อสอบ <code>${QUIZ.code}</code></div></div><div class="qcount" id="qcount">0/${n}</div></div>
+ ${QUIZ.items.map((it,qi)=>`<div class="card" id="q${qi}"><div class="qnum">ข้อที่ ${qi+1}</div><div class="qtext">${fmt(it.q)}</div><div class="opts">${it.opts.map((o,oi)=>`<button class="opt" id="q${qi}o${oi}" onclick="pick(${qi},${oi})"><span class="ol">${'กขคง'[oi]}</span><span>${fmt(o.t)}</span></button>`).join('')}</div></div>`).join('')}
+ <div class="center"><button class="btn ok" style="padding:13px 34px;font-size:18px" onclick="submitQuiz()">✔ ส่งคำตอบ</button><button class="btn ghost" onclick="${isF?'goHome()':`openLesson(${SECTIONS.findIndex(x=>x.key===key)})`}">ยกเลิก</button></div></main>`);
+}
+function pick(qi,oi){QUIZ.ans[qi]=oi;for(let j=0;j<4;j++){const b=document.getElementById(`q${qi}o${j}`);if(b)b.classList.toggle('sel',j===oi);}
+ document.getElementById('qcount').textContent=QUIZ.ans.filter(a=>a!==null).length+'/'+QUIZ.n;}
+function submitQuiz(){
+ const miss=QUIZ.ans.findIndex(a=>a===null);
+ if(miss>=0){toast('กรุณาตอบให้ครบทุกข้อ (ยังไม่ได้ตอบข้อ '+(miss+1)+')');document.getElementById('q'+miss).scrollIntoView({behavior:'smooth',block:'center'});return;}
+ const s=me(),key=QUIZ.key,n=QUIZ.n,isF=key==='final';
+ const score=QUIZ.items.reduce((a,it,i)=>a+(it.opts[QUIZ.ans[i]].ok?1:0),0);
+ const pct=Math.round(score/n*100),thr=isF?DB.settings.finalPassPct:DB.settings.passPct,pass=pct>=thr;
+ const now=new Date().toISOString();
+ const r=s.quizzes[key]||{attempts:0,best:0,last:0,total:n,passed:false,history:[]};
+ r.attempts++;r.last=score;r.best=Math.max(r.best,score);r.total=n;if(pass)r.passed=true;
+ r.history.push({d:now,score,total:n,code:QUIZ.code,pass});s.quizzes[key]=r;s.updated=now;
+ if(isF&&pass){if(!s.cert){const y=new Date().getFullYear()+543;s.cert={no:`CERT-${y}-${Math.random().toString(36).slice(2,7).toUpperCase()}`,date:now,score,total:n};}else if(score>s.cert.score){s.cert.score=score;}}
+ saveDB();renderResult(score,n,pct,pass,thr);
+}
+function renderResult(score,n,pct,pass,thr){
+ const key=QUIZ.key,isF=key==='final',s=me();const i=SECTIONS.findIndex(x=>x.key===key);
+ let btns=`<button class="btn ghost" onclick="startQuiz('${key}')">🎲 ทำใหม่ (สุ่มชุดใหม่)</button>`;
+ if(!isF)btns+=`<button class="btn ghost" onclick="openLesson(${i})">📖 ทบทวนบทเรียน</button>`;
+ if(pass&&!isF&&i<3)btns+=`<button class="btn" onclick="openLesson(${i+1})">ไปส่วนที่ ${i+2} →</button>`;
+ if(pass&&!isF&&allSec(s))btns+=`<button class="btn" onclick="renderSummary()">🗒️ ดูการ์ดสรุป</button>`;
+ if(isF&&pass)btns+=`<button class="btn gold" onclick="renderCert(ME)">🏅 รับเกียรติบัตร</button>`;
+ btns+=`<button class="btn ghost" onclick="goHome()">🏠 หน้าหลัก</button>`;
+ view(header()+`<main class="wrap"><div class="card res-top"><div class="ring ${pass?'pass':'fail'}"><b>${score}/${n}</b><span>${pct}%</span></div>
+ <h2>${pass?'🎉 ยินดีด้วย! คุณผ่านแบบทดสอบ':'💪 ยังไม่ผ่านเกณฑ์ ลองอีกครั้งนะ'}</h2>
+ <p class="mut">เกณฑ์ผ่าน ${thr}% · รหัสชุดข้อสอบ <code>${QUIZ.code}</code></p>
+ ${pass&&!isF&&i<3?`<p>🔓 ปลดล็อก <b>ส่วนที่ ${i+2}: ${SECTIONS[i+1].title}</b> แล้ว</p>`:''}
+ ${pass&&!isF&&allSec(s)?'<p>🔓 เรียนครบทั้ง 4 ส่วนแล้ว ปลดล็อก <b>การ์ดสรุป</b> และ <b>แบบทดสอบประมวลความรู้</b></p>':''}
+ <div>${btns}</div></div>
+ <h3>🔎 เฉลยและคำอธิบาย</h3>
+ ${QUIZ.items.map((it,qi)=>{const a=QUIZ.ans[qi],ok=it.opts[a].ok;return `<div class="card"><div class="qnum">ข้อที่ ${qi+1} ${ok?'<span class="chip pass">ถูก</span>':'<span class="chip" style="background:#fee2e2;color:#b91c1c">ผิด</span>'}</div><div class="qtext">${fmt(it.q)}</div><div class="opts">${it.opts.map((o,oi)=>`<div class="opt ${o.ok?'right':(oi===a?'wrong':'')}"><span class="ol">${'กขคง'[oi]}</span><span>${fmt(o.t)} ${o.ok?' ✔':''}${oi===a&&!o.ok?' (คำตอบของคุณ)':''}</span></div>`).join('')}</div><div class="exp">💡 ${fmt(it.e)}</div></div>`;}).join('')}
+ <div class="center">${btns}</div></main>`);
+ if(pass)confetti();
+}
+
+/* ================== การ์ดสรุป ================== */
+function renderSummary(){
+ const s=me();if(!allSec(s)){toast('ต้องผ่านครบ 4 ส่วนก่อน');return;}
+ const fp=passed(s,'final');
+ const st=DB.settings;
+ view(header()+`<main class="wrap"><div class="sumcard"><div class="sum-h"><div style="font-size:46px">🗒️</div><h2>การ์ดสรุปบทเรียน</h2><div>${st.subjectCode} ${st.subjectName} (${st.gradeLevel})<br>${st.unitName}</div>
+ <h3 style="color:#fff;margin:10px 0 0">${esc(s.name)} ${s.room?'· '+esc(s.room):''} ${s.no?'· เลขที่ '+esc(s.no):''}</h3></div>
+ <div class="sum-b"><div class="scorebar">${SECTIONS.map(x=>`<div>ส่วนที่ ${x.no}<b>${s.quizzes[x.key].best}/5</b></div>`).join('')}<div>ประมวลความรู้<b>${fp?s.quizzes.final.best+'/10':'—'}</b></div></div>
+ <div class="sum-grid">${SECTIONS.map(x=>`<div class="sum-item" style="--c:${x.color}"><h4>${x.icon} ${x.no}. ${x.title}</h4><ul>${SUMMARY[x.key].map(t=>`<li>${t}</li>`).join('')}</ul></div>`).join('')}</div>
+ <p class="center mut" style="margin-top:16px">✅ เรียนครบทั้ง 4 ส่วนเมื่อ ${thDate(s.updated)}</p></div></div>
+ <div class="center no-print" style="margin-top:18px">${fp?`<button class="btn gold" onclick="renderCert(ME)">🏅 ดูเกียรติบัตร</button>`:`<button class="btn" onclick="startQuiz('final')">🏁 ทำแบบทดสอบประมวลความรู้ (10 ข้อ)</button>`}
+ <button class="btn ghost" onclick="window.print()">🖨️ พิมพ์/บันทึกการ์ด</button><button class="btn ghost" onclick="goHome()">🏠 หน้าหลัก</button></div></main>`);
+}
+
+/* ================== เกียรติบัตร ================== */
+function renderCert(id,fromAdmin){
+ const s=DB.students[id];if(!s||!s.cert){toast('ยังไม่มีเกียรติบัตร');return;}
+ const c=s.cert,pct=Math.round(c.score/c.total*100);
+ const st=DB.settings;
+ const top=fromAdmin?adminHeader():header();
+ view(top+`<main class="wrap" style="max-width:1080px"><div class="center no-print" style="margin-bottom:14px">
+ <button class="btn gold" onclick="window.print()">🖨️ พิมพ์ / บันทึกเป็น PDF</button>
+ <button class="btn ghost" onclick="${fromAdmin?'renderAdmin()':'goHome()'}">← ย้อนกลับ</button>
+ <div class="mut" style="font-size:14px">เคล็ดลับ: ในหน้าพิมพ์ เลือก “แนวนอน” และติ๊ก “กราฟิกพื้นหลัง”</div></div>
+ <div class="cert-scroll"><div class="cert"><div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+ <div class="cert-in">
+  <div><div style="font-size:44px;line-height:1">🏅</div><h1 class="cert-title">เกียรติบัตร</h1><div class="cert-sub">ขอมอบเกียรติบัตรฉบับนี้ไว้เพื่อแสดงว่า</div></div>
+  <div class="cert-name">${esc(s.name)}</div>
+  <div class="cert-body">${s.room?'นักเรียนชั้น '+esc(s.room)+(s.no?' เลขที่ '+esc(s.no):'')+'<br>':''}
+  ได้ผ่านการเรียนรู้และการประเมินผล บทเรียนออนไลน์ รายวิชา ${st.subjectName} (${st.subjectCode}) ${st.gradeLevel}<br>
+  <b>${st.unitName}</b> ครบทั้ง 4 ส่วน<br>
+  ด้วยคะแนนแบบทดสอบประมวลความรู้ความเข้าใจ <b>${c.score}/${c.total} คะแนน (${pct}%)</b><br>
+  ให้ไว้ ณ วันที่ ${thDate(c.date)}</div>
+  <div class="cert-sign"><div class="certno">เลขที่เกียรติบัตร<br><b>${c.no}</b></div>
+   <div class="seal"><b>ผ่าน</b>${st.subjectCode}<br>หน่วยที่ 1</div>
+   <div class="sig"><div class="sg">${st.teacherName}</div><div class="ln">( ${st.teacherName} )<br>${st.teacherPos}</div></div></div>
+ </div></div></div></main>`);
+ if(!fromAdmin)confetti();
+}
+
+/* ================== ระบบผู้ดูแล ================== */
+function openAdminLogin(){
+ modal(`<h2>🔐 เข้าสู่ระบบผู้ดูแล</h2><form onsubmit="adminLogin();return false;"><label>ชื่อผู้ใช้</label><input id="admU" autocomplete="off"><label>รหัสผ่าน</label><input id="admP" type="password">
+ <div style="margin-top:16px;text-align:right"><button type="button" class="btn ghost" onclick="closeModal()">ยกเลิก</button><button class="btn" type="submit">เข้าสู่ระบบ</button></div></form>`);
+ setTimeout(()=>document.getElementById('admU').focus(),50);
+}
+function adminLogin(){
+ if(document.getElementById('admU').value.trim()===ADMIN_USER&&document.getElementById('admP').value===ADMIN_PASS){sessionStorage.setItem('stat6_admin2','1');closeModal();renderAdmin();}
+ else toast('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+}
+function adminLogout(){sessionStorage.removeItem('stat6_admin2');renderLogin();}
+function adminHeader(){return `<header class="topbar no-print" style="background:#1e1b4b;color:#fff"><div class="brand" style="color:#fff" onclick="renderAdmin()">🛡️ ระบบผู้ดูแล · ${DB.settings.subjectCode} ${DB.settings.subjectName}</div><div style="flex:1"></div><button class="btn sm ghost" onclick="adminLogout()">ออกจากระบบ</button></header>`;}
+
+let ADMTAB='students';
+function renderAdmin(tab){
+ if(sessionStorage.getItem('stat6_admin2')!=='1'){renderLogin();return;}
+ if(tab)ADMTAB=tab;DB=loadDB();
+ const list=Object.values(DB.students);
+ const nAll=list.length,nSec=list.filter(allSec).length,nCert=list.filter(s=>s.cert).length;
+ const fs=list.filter(s=>s.quizzes.final).map(s=>s.quizzes.final.best);
+ const avg=fs.length?(fs.reduce((a,b)=>a+b,0)/fs.length).toFixed(1):'—';
+ const st=DB.settings;
+ const tabs=[['students','👥 ผลการเรียน'],['bank','📚 คลังข้อสอบ'],['settings','⚙️ ตั้งค่าและรายละเอียดวิชา']].map(t=>`<button class="${ADMTAB===t[0]?'on':''}" onclick="renderAdmin('${t[0]}')">${t[1]}</button>`).join('');
+ let body='';
+ if(ADMTAB==='students'){
+  body=`<div class="stats"><div class="stat">นักเรียนทั้งหมด<b>${nAll}</b></div><div class="stat">เรียนครบ 4 ส่วน<b>${nSec}</b></div><div class="stat">ได้รับเกียรติบัตร<b>${nCert}</b></div><div class="stat">คะแนนประมวลเฉลี่ย (สูงสุดของแต่ละคน)<b>${avg}</b></div></div>
+  <div class="card"><div class="toolbar"><input id="admQ" placeholder="🔎 ค้นหาชื่อ / ชั้น" oninput="fillAdminTable()"><select id="admF" onchange="fillAdminTable()" style="max-width:220px"><option value="">ทุกสถานะ</option><option value="cert">ได้รับเกียรติบัตร</option><option value="sec">เรียนครบ รอสอบประมวล</option><option value="learn">กำลังเรียน</option></select><div style="flex:1"></div>
+  <button class="btn sm ok" onclick="exportCSV()">⬇️ ส่งออก CSV (Excel)</button><button class="btn sm bad" onclick="clearAll()">🗑️ ล้างข้อมูลทั้งหมด</button></div>
+  <div class="tbl-wrap"><table class="adm"><thead><tr><th>#</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th>เลขที่</th><th>ส่วน 1</th><th>ส่วน 2</th><th>ส่วน 3</th><th>ส่วน 4</th><th>ประมวล</th><th>สถานะ</th><th>ใช้งานล่าสุด</th><th>จัดการ</th></tr></thead><tbody id="admBody"></tbody></table></div>
+  <p class="mut" style="font-size:13.5px">คะแนนแสดงเป็นคะแนนสูงสุด (จำนวนครั้งที่สอบ) · ✔ = ผ่านเกณฑ์ · ข้อมูลเก็บในเบราว์เซอร์ของเครื่องนี้</p></div>`;
+ }else if(ADMTAB==='bank'){
+  const blocks=[...SECTIONS.map(x=>[`ส่วนที่ ${x.no}: ${x.title} (สุ่ม 5 จาก ${BANK[x.key].length} ข้อ)`,BANK[x.key]]),[`แบบทดสอบประมวลความรู้ (สุ่ม 10 จาก ${FINAL_BANK.length} ข้อ)`,FINAL_BANK]];
+  body=blocks.map(b=>`<div class="card"><h3>${b[0]}</h3>${b[1].map((q,i)=>`<div class="bank-q"><b>${i+1}.</b> ${fmt(q.q)}<br><span class="a">✔ ${fmt(q.c[0])}</span><br><small class="mut">ตัวลวง: ${q.c.slice(1).map(fmt).join(' | ')}</small></div>`).join('')}</div>`).join('');
+ }else{
+  body=`<div class="card" style="max-width:640px"><h3>⚙️ ตั้งค่ารายละเอียดวิชาและเกณฑ์การผ่าน</h3>
+  <label>ชื่อรายวิชา</label><input id="setSubName" value="${esc(st.subjectName)}">
+  <label>รหัสวิชา</label><input id="setSubCode" value="${esc(st.subjectCode)}">
+  <label>ระดับชั้น</label><input id="setGrade" value="${esc(st.gradeLevel)}">
+  <label>ชื่อหน่วยการเรียนรู้</label><input id="setUnit" value="${esc(st.unitName)}">
+  <label>ชื่อ-นามสกุล ครูผู้สอน (แสดงบนเกียรติบัตร)</label><input id="setTeacher" value="${esc(st.teacherName)}">
+  <label>ตำแหน่ง ครูผู้สอน</label><input id="setTeacherPos" value="${esc(st.teacherPos)}">
+  <hr style="margin:20px 0;border:0;border-top:1px solid var(--bd)">
+  <label>เกณฑ์ผ่านแบบทดสอบย่อย (5 ข้อ) – ร้อยละ</label><input id="setA" type="number" min="0" max="100" value="${st.passPct}">
+  <label>เกณฑ์ผ่านแบบทดสอบประมวลความรู้ (10 ข้อ) – ร้อยละ</label><input id="setB" type="number" min="0" max="100" value="${st.finalPassPct}">
+  <div style="margin-top:20px"><button class="btn" onclick="saveSettings()">💾 บันทึกการตั้งค่า</button></div></div>`;
+ }
+ view(adminHeader()+`<main class="wrap" style="max-width:1200px"><div class="tabs">${tabs}</div>${body}</main>`);
+ if(ADMTAB==='students')fillAdminTable();
+}
+
+function stStatus(s){return s.cert?'cert':allSec(s)?'sec':'learn';}
+function stLabel(s){const k=stStatus(s);return k==='cert'?'<span class="chip pass">🏅 ได้เกียรติบัตร</span>':k==='sec'?'<span class="chip go">รอสอบประมวล</span>':`<span class="chip lock">กำลังเรียน (${SECTIONS.filter(x=>passed(s,x.key)).length}/4)</span>`;}
+function cell(s,k){const r=s.quizzes[k];if(!r)return '<span class="noc">–</span>';return `<span class="${r.passed?'okc':''}">${r.best}/${r.total}${r.passed?' ✔':''}</span><br><small class="mut">(${r.attempts} ครั้ง)</small>`;}
+function fillAdminTable(){
+ const q=(document.getElementById('admQ').value||'').toLowerCase(),f=document.getElementById('admF').value;
+ const list=Object.values(DB.students).filter(s=>(s.name+' '+s.room).toLowerCase().includes(q)&&(!f||stStatus(s)===f))
+  .sort((a,b)=>(a.room||'').localeCompare(b.room||'')||(+a.no||0)-(+b.no||0)||a.name.localeCompare(b.name,'th'));
+ document.getElementById('admBody').innerHTML=list.length?list.map((s,i)=>`<tr><td>${i+1}</td><td class="l">${esc(s.name)}</td><td>${esc(s.room)}</td><td>${esc(s.no)}</td>${SECTIONS.map(x=>`<td>${cell(s,x.key)}</td>`).join('')}<td>${cell(s,'final')}</td><td>${stLabel(s)}</td><td><small>${thDT(s.updated)}</small></td>
+ <td style="white-space:nowrap"><button class="btn sm ghost" onclick="stDetail('${encodeURIComponent(s.id)}')">ดู</button>${s.cert?`<button class="btn sm gold" onclick="renderCert(decodeURIComponent('${encodeURIComponent(s.id)}'),true)">🏅</button>`:''}<button class="btn sm bad" onclick="delSt('${encodeURIComponent(s.id)}')">ลบ</button></td></tr>`).join(''):'<tr><td colspan="12" class="mut">ยังไม่มีข้อมูลนักเรียน</td></tr>';
+}
+function stDetail(eid){
+ const s=DB.students[decodeURIComponent(eid)];if(!s)return;
+ const keys=[...SECTIONS.map(x=>[x.key,`ส่วนที่ ${x.no}`]),['final','ประมวลความรู้']];
+ modal(`<h2>👤 ${esc(s.name)}</h2><p class="mut">ชั้น ${esc(s.room)||'-'} · เลขที่ ${esc(s.no)||'-'}<br>เข้าเรียนครั้งแรก ${thDT(s.created)} · ล่าสุด ${thDT(s.updated)}${s.cert?`<br>🏅 เกียรติบัตรเลขที่ ${s.cert.no} (${thDate(s.cert.date)})`:''}</p>
+ ${keys.map(k=>{const r=s.quizzes[k[0]];return `<h4 style="margin:12px 0 4px">${k[1]}</h4>`+(r?`<table class="tb"><tr><th>ครั้ง</th><th>วันเวลา</th><th>คะแนน</th><th>รหัสชุด</th></tr>${r.history.map((h,i)=>`<tr><td>${i+1}</td><td>${thDT(h.d)}</td><td class="${h.pass?'okc':''}">${h.score}/${h.total}${h.pass?' ✔':''}</td><td><small>${h.code}</small></td></tr>`).join('')}</table>`:'<span class="mut">ยังไม่ได้สอบ</span>');}).join('')}
+ <div style="text-align:right;margin-top:14px"><button class="btn" onclick="closeModal()">ปิด</button></div>`);
+}
+function delSt(eid){const id=decodeURIComponent(eid),s=DB.students[id];if(!s)return;if(!confirm('ลบข้อมูลของ "'+s.name+'" ใช่หรือไม่?'))return;delete DB.students[id];saveDB();renderAdmin();toast('ลบข้อมูลแล้ว');}
+function clearAll(){if(!confirm('ล้างข้อมูลนักเรียนทั้งหมดในเครื่องนี้?'))return;if(!confirm('ยืนยันอีกครั้ง: ข้อมูลจะหายถาวร'))return;DB.students={};saveDB();renderAdmin();toast('ล้างข้อมูลทั้งหมดแล้ว');}
+
+function saveSettings(){
+  DB.settings.subjectName=document.getElementById('setSubName').value.trim()||'คณิตศาสตร์เพิ่มเติม 6';
+  DB.settings.subjectCode=document.getElementById('setSubCode').value.trim()||'ค33202';
+  DB.settings.gradeLevel=document.getElementById('setGrade').value.trim()||'ชั้นมัธยมศึกษาปีที่ 6';
+  DB.settings.unitName=document.getElementById('setUnit').value.trim()||'หน่วยการเรียนรู้ที่ 1 สถิติศาสตร์และข้อมูล';
+  DB.settings.teacherName=document.getElementById('setTeacher').value.trim()||'จิรพันธ์ บัวแก้ว';
+  DB.settings.teacherPos=document.getElementById('setTeacherPos').value.trim()||'ครูผู้สอน';
+  DB.settings.passPct=Math.min(100,Math.max(0,+document.getElementById('setA').value||0));
+  DB.settings.finalPassPct=Math.min(100,Math.max(0,+document.getElementById('setB').value||0));
+  saveDB();
+  toast('บันทึกการตั้งค่าเรียบร้อยแล้ว');
+}
+
+function exportCSV(){
+ const st=DB.settings;
+ const head=['ชื่อ-นามสกุล','ชั้น','เลขที่','ส่วนที่1 (สูงสุด/5)','ส่วนที่1 ครั้ง','ส่วนที่2 (สูงสุด/5)','ส่วนที่2 ครั้ง','ส่วนที่3 (สูงสุด/5)','ส่วนที่3 ครั้ง','ส่วนที่4 (สูงสุด/5)','ส่วนที่4 ครั้ง','ประมวล (สูงสุด/10)','ประมวล ครั้ง','สถานะ','เลขที่เกียรติบัตร','วันที่ผ่าน','เข้าเรียนครั้งแรก','ใช้งานล่าสุด'];
+ const rows=Object.values(DB.students).map(s=>{const g=k=>s.quizzes[k]?[s.quizzes[k].best,s.quizzes[k].attempts]:['',''];const st=stStatus(s);
+  return [s.name,s.room,s.no,...g('s1'),...g('s2'),...g('s3'),...g('s4'),...g('final'),st==='cert'?'ได้รับเกียรติบัตร':st==='sec'?'เรียนครบ รอสอบประมวล':'กำลังเรียน',s.cert?s.cert.no:'',s.cert?thDate(s.cert.date):'',thDT(s.created),thDT(s.updated)];});
+ const csv='\uFEFF'+[head,...rows].map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`ผลการเรียน_${st.subjectCode}_${st.unitName}.csv`;a.click();
+}
+
+/* ================== เครื่องมือทั่วไป ================== */
+function modal(html){closeModal();document.body.insertAdjacentHTML('beforeend',`<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal card">${html}</div></div>`);}
+function closeModal(){const m=document.getElementById('modal');if(m)m.remove();}
+function toast(msg){document.querySelectorAll('.toast').forEach(t=>t.remove());const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2600);}
+function confetti(){const cs=['#f59e0b','#4f46e5','#22c55e','#ef4444','#0ea5e9','#ec4899'];for(let i=0;i<90;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=cs[i%cs.length];d.style.animationDuration=(2+Math.random()*2.5)+'s';d.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),5500);}}
+
+/* ================== เริ่มต้น ================== */
+if(sessionStorage.getItem('stat6_admin2')==='1')renderAdmin();
+else if(ME&&DB.students[ME])goHome();
+else renderLogin();
+</script>
+</body>
+</html>
